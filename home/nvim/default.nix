@@ -10,6 +10,7 @@
     ./format.nix
     ./telescope.nix
     ./harpoon.nix
+    ./lsp.nix
   ];
 
   programs.neovim = {

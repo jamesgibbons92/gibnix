@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
@@ -11,14 +12,29 @@
   };
 
   outputs = {
+    self,
     nixpkgs,
+    # nixpkgs-unstable,
     home-manager,
     ...
-  }: let
+  } @ inputs: let
+    inherit (self) outputs;
     system = "x86_64-linux";
-    username = "james";
+    # username = "james";
     lib = nixpkgs.lib;
-    specialArgs = {inherit home-manager username;};
+    # pkgs-unstable = import nixpkgs-unstable {
+    #   inherit system;
+    #   config.allowUnfree = true;
+    # };
+    # specialArgs = {inherit pkgs-unstable home-manager username;};
+    # homeMgrGlobalCfg = {
+    #   home-manager.useGlobalPkgs = true;
+    #   home-manager.useUserPackages = true;
+    #   home-manager.users.${username} = {
+    #     home.stateVersion = "25.05";
+    #     programs.home-manager.enable = true;
+    #   };
+    # };
   in {
     nixosConfigurations = {
       /*
@@ -32,11 +48,14 @@
       };
       */
       macbook = lib.nixosSystem {
-        inherit system specialArgs;
+        inherit system;
+        specialArgs = {
+          inherit inputs outputs;
+        };
         modules = [
           ./hosts/macbook/configuration.nix
-          ./modules/core.nix
-          ./home
+          ./hosts/common/core
+          ./hosts/common/users/james
         ];
       };
     };

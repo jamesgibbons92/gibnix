@@ -4,7 +4,6 @@
 {
   config,
   pkgs,
-  username,
   ...
 }: {
   imports = [
@@ -17,6 +16,13 @@
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  boot.initrd.kernelModules = ["wl"];
+  boot.kernelModules = ["wl"];
+  nixpkgs.config.permittedInsecurePackages = [
+    "broadcom-sta-6.30.223.271-57-6.16.4"
+  ];
+  boot.extraModulePackages = [config.boot.kernelPackages.broadcom_sta];
 
   boot.initrd.luks.devices."luks-0f73f856-a1c2-421d-84ce-1df25733f99e".device = "/dev/disk/by-uuid/0f73f856-a1c2-421d-84ce-1df25733f99e";
   networking.hostName = "macbook"; # Define your hostname.
@@ -49,10 +55,11 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  services.xserver.displayManager.startx.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.displayManager.gdm.enable = false;
+  # services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -86,22 +93,22 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.${username} = {
-    isNormalUser = true;
-    description = "${username}";
-    extraGroups = ["networkmanager" "wheel"];
-    packages = with pkgs; [
-      # thunderbird
-    ];
-  };
+  # users.users.${username} = {
+  #   isNormalUser = true;
+  #   description = "${username}";
+  #   extraGroups = ["networkmanager" "wheel"];
+  #   packages = with pkgs; [
+  #     # thunderbird
+  #   ];
+  # };
 
   # Enable automatic login for the user.
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "${username}";
+  # services.displayManager.autoLogin.enable = true;
+  # services.displayManager.autoLogin.user = "james";
 
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovt@tty1".enable = false;
+  # systemd.services."getty@tty1".enable = false;
+  # systemd.services."autovt@tty1".enable = false;
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -114,6 +121,8 @@
   environment.systemPackages = with pkgs; [
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #  wget
+    # b43Firmware_5_1_138
+    wirelesstools
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -142,6 +151,8 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
+
+  nix.settings.experimental-features = ["flakes" "nix-command"];
 
   environment.variables = {
     GSK_RENDERER = "ngl";
