@@ -19,5 +19,7 @@
     ripgrep
 
     claude-code
+
+    bitwarden-cli
   ];
 }
