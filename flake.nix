@@ -14,7 +14,7 @@
   outputs = {
     self,
     nixpkgs,
-    # nixpkgs-unstable,
+    nixpkgs-unstable,
     home-manager,
     ...
   } @ inputs: let
@@ -22,11 +22,11 @@
     system = "x86_64-linux";
     # username = "james";
     lib = nixpkgs.lib;
-    # pkgs-unstable = import nixpkgs-unstable {
-    #   inherit system;
-    #   config.allowUnfree = true;
-    # };
-    # specialArgs = {inherit pkgs-unstable home-manager username;};
+    pkgs-unstable = import nixpkgs-unstable {
+      inherit system;
+      config.allowUnfree = true;
+    };
+    # specialArgs = {inherit pkgs-unstable;};
     # homeMgrGlobalCfg = {
     #   home-manager.useGlobalPkgs = true;
     #   home-manager.useUserPackages = true;
@@ -54,6 +54,17 @@
         };
         modules = [
           ./hosts/macbook/configuration.nix
+          ./hosts/common/core
+          ./hosts/common/users/james
+        ];
+      };
+      bajie = lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs outputs pkgs-unstable;
+        };
+        modules = [
+          ./hosts/s14/configuration.nix
           ./hosts/common/core
           ./hosts/common/users/james
         ];

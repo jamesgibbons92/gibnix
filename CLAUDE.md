@@ -4,83 +4,117 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture Overview
 
-This is a traditional NixOS configuration repository with **dynamic host configuration loading**. The main `configuration.nix` automatically detects the system hostname and imports the appropriate host-specific configuration.
+This is a **flakes-based NixOS configuration** with modular organization and Home Manager integration. The system uses explicit host definitions in `flake.nix` rather than dynamic loading.
 
 **Directory Structure:**
-- `configuration.nix` - Main entry point that dynamically loads host configs based on hostname
-- `hosts/macbook-air/` - Host-specific configuration files for the MacBook Air system
-- `modules/` - Directory for reusable NixOS modules (currently empty, prepared for modular expansion)
+- `flake.nix` - Main entry point defining system configurations and inputs
+- `hosts/` - Host-specific configurations organized by hostname
+  - `hosts/common/core/` - Shared system-level configuration
+  - `hosts/common/users/james/` - User-specific system configuration
+  - `hosts/macbook/` - MacBook-specific configuration
+  - `hosts/s14/` - S14 laptop configuration
+- `home/` - Home Manager configuration modules
+  - `home/core.nix` - Base user packages and imports
+  - `home/desktop/` - Desktop environment (Hyprland) configuration
+  - `home/nvim/` - Neovim configuration with LSP, formatting, themes
+  - `home/shell/` - Shell configuration (tmux, zsh)
+- `modules/` - Custom NixOS modules (currently minimal)
 
-**Dynamic Loading System:**
-- Reads hostname from `/proc/sys/kernel/hostname`
-- Imports `./hosts/${hostname}/configuration.nix` automatically
-- Throws helpful error if host configuration doesn't exist
+**Configuration Architecture:**
+- Flakes manage dependencies (nixpkgs stable/unstable, home-manager)
+- Host configurations combine common modules with host-specific settings
+- Home Manager handles user-space configuration declaratively
+- Modular organization allows for easy extension and reuse
 
 ## Common Development Commands
 
-### Building and Testing Configuration
+### Initial Setup
 ```bash
-# Safe testing (recommended first step)
-sudo nixos-rebuild test
+# Setup system symlink and build (first time or new host)
+./setup.sh <hostname>
+
+# Setup for existing hostname (auto-detected)
+./setup.sh
+```
+
+### Building and Testing Configuration  
+```bash
+# Safe testing with flakes (recommended first step)
+sudo nixos-rebuild test --flake .#<hostname>
 
 # Build and switch to new configuration
-sudo nixos-rebuild switch
+sudo nixos-rebuild switch --flake .#<hostname>
 
 # Build without switching (for validation)
-sudo nixos-rebuild build
+sudo nixos-rebuild build --flake .#<hostname>
 
-# Dry run to preview changes
-sudo nixos-rebuild dry-build
+# Quick rebuild using symlinked config (after setup.sh)
+sudo nixos-rebuild switch
+
+# Update flake inputs
+nix flake update
 ```
 
-### System Management
+### Home Manager Commands
 ```bash
-# List system generations
-nixos-rebuild list-generations
+# Rebuild home configuration only
+home-manager switch --flake .#james
 
-# Rollback to previous generation
-sudo nixos-rebuild switch --rollback
-
-# Upgrade system packages
-sudo nixos-rebuild switch --upgrade
+# Check home configuration
+home-manager news
 ```
 
-### Package Management
+### Development Tools
 ```bash
 # Search for packages
 nix search nixpkgs <package-name>
 
 # Install packages temporarily
 nix-shell -p <package-name>
+
+# Check flake
+nix flake check
+
+# Show flake info
+nix flake show
 ```
 
 ## Configuration Management Patterns
 
-- **Host-based organization**: Each system has its own directory under `hosts/`
+- **Flakes-based**: Uses Nix flakes for reproducible builds and dependency management
+- **Modular architecture**: Common configurations shared between hosts via `hosts/common/`
+- **Home Manager integration**: User-space configuration managed declaratively
 - **Hardware separation**: Auto-generated `hardware-configuration.nix` should not be manually edited
-- **Traditional channels**: Uses standard NixOS channels (not flakes-based)
-- **Symlinked integration**: System config directory is symlinked to this user repository
+- **Mixed package sources**: Uses both stable (25.05) and unstable nixpkgs
+- **Symlinked integration**: System config directory symlinked to `/etc/nixos` via `setup.sh`
 
-## Current System Configuration
+## Current Hosts
 
-- **NixOS Version**: 25.05 (Warbler)
-- **Desktop Environment**: GNOME with GDM, auto-login enabled for user 'james'
-- **Security**: LUKS full-disk encryption configured
-- **Audio**: PipeWire audio system
-- **Kernel**: Latest Linux kernel (6.16.4)
-- **Locale**: UK keyboard layout with Mac variant
+- **macbook**: MacBook configuration
+- **bajie** (s14): S14 laptop configuration - maps to `hosts/s14/` directory
+
+Both hosts share:
+- **NixOS Version**: 25.05 (Warbler) 
+- **Audio**: PipeWire with full audio stack
+- **Desktop**: Hyprland window manager with comprehensive theming
+- **Development**: Neovim with LSP, tmux, git configuration
+- **User**: james (normal user with wheel access)
 
 ## Development Workflow
 
-1. Always test configuration changes with `nixos-rebuild test` before switching
-2. The system currently has 2 generations - rollback is available if needed
-3. Configuration files are located in `/home/james/nixos-config/hosts/${hostname}/`
-4. To add a new host: create `./hosts/new-hostname/configuration.nix` and set `networking.hostName = "new-hostname"`
-5. The main `configuration.nix` handles dynamic loading - no manual imports needed
-6. Unfree packages are enabled in the current configuration
+1. Test configuration changes with `sudo nixos-rebuild test --flake .#<hostname>`
+2. Use `./setup.sh` for initial setup or when adding new hosts
+3. For new hosts: 
+   - Create `hosts/<hostname>/configuration.nix` and `hardware-configuration.nix`
+   - Add host entry to `flake.nix` nixosConfigurations
+   - Run `./setup.sh <hostname>`
+4. Home Manager changes can be tested independently
+5. Flake inputs should be updated regularly with `nix flake update`
 
 ## Key Files
 
-- `configuration.nix` - Main entry point with dynamic host loading
-- `hosts/macbook-air/configuration.nix` - MacBook Air system configuration
-- `hosts/macbook-air/hardware-configuration.nix` - Auto-generated hardware config (do not edit manually)
+- `flake.nix` - Main entry point with inputs and host definitions
+- `hosts/common/core/default.nix` - Shared system configuration
+- `hosts/common/users/james/default.nix` - User account and home-manager integration  
+- `home/core.nix` - Base home-manager configuration
+- `setup.sh` - Automated system setup and symlinking script

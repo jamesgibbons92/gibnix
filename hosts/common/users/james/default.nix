@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  pkgs-unstable,
   ...
 }: let
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
@@ -29,5 +30,8 @@ in {
   #   neededForUsers = true;
   # };
 
-  home-manager.users.james = import ../../../../home/core.nix;
+  home-manager.users.james = {
+    imports = [../../../../home/core.nix];
+    _module.args = {inherit pkgs-unstable;};
+  };
 }

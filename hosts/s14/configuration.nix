@@ -7,25 +7,19 @@
   ...
 }: {
   imports = [
+    # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 3;
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  boot.initrd.kernelModules = ["wl"];
-  boot.kernelModules = ["wl"];
-  nixpkgs.config.permittedInsecurePackages = [
-    "broadcom-sta-6.30.223.271-57-6.16.4"
-  ];
-  boot.extraModulePackages = [config.boot.kernelPackages.broadcom_sta];
-
-  boot.initrd.luks.devices."luks-0f73f856-a1c2-421d-84ce-1df25733f99e".device = "/dev/disk/by-uuid/0f73f856-a1c2-421d-84ce-1df25733f99e";
-  networking.hostName = "macbook"; # Define your hostname.
+  networking.hostName = "bajie"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -54,17 +48,18 @@
   };
 
   # Enable the X11 windowing system.
+  # services.xserver.enable = true;
+
   services.xserver.enable = true;
   services.xserver.displayManager.startx.enable = true;
-
   # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = false;
+  # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "gb";
-    variant = "mac";
+    variant = "";
   };
 
   # Configure console keymap
@@ -93,14 +88,14 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  # users.users.${username} = {
-  #   isNormalUser = true;
-  #   description = "${username}";
-  #   extraGroups = ["networkmanager" "wheel"];
-  #   packages = with pkgs; [
-  #     # thunderbird
-  #   ];
-  # };
+  users.users.james = {
+    isNormalUser = true;
+    description = "james";
+    extraGroups = ["networkmanager" "wheel"];
+    packages = with pkgs; [
+      #  thunderbird
+    ];
+  };
 
   # Enable automatic login for the user.
   # services.displayManager.autoLogin.enable = true;
@@ -113,17 +108,45 @@
   # Install firefox.
   programs.firefox.enable = true;
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    #  wget
-    # b43Firmware_5_1_138
-    wirelesstools
+    asusctl
   ];
+
+  services = {
+    asusd = {
+      enable = true;
+      enableUserService = true;
+      asusdConfig = {
+        text = ''
+          (
+              charge_control_end_threshold: 80,
+              disable_nvidia_powerd_on_battery: true,
+              ac_command: "",
+              bat_command: "",
+              platform_profile_linked_epp: true,
+              platform_profile_on_battery: Quiet,
+              change_platform_profile_on_battery: true,
+              platform_profile_on_ac: Performance,
+              change_platform_profile_on_ac: true,
+              profile_quiet_epp: Power,
+              profile_balanced_epp: BalancePower,
+              profile_custom_epp: Performance,
+              profile_performance_epp: Performance,
+              ac_profile_tunings: {},
+              dc_profile_tunings: {
+                  Quiet: (
+                      enabled: false,
+                      group: {},
+                  ),
+              },
+              armoury_settings: {},
+          )
+        '';
+      };
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -151,8 +174,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
-
-  environment.variables = {
-    GSK_RENDERER = "ngl";
-  };
 }

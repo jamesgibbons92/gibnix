@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CONFIG_DIR="$HOME/nixos-config"
+CONFIG_DIR="$HOME/gibnix"
 TARGET="/etc/nixos"
 
 # Figure out host: use arg if provided, else use system hostname

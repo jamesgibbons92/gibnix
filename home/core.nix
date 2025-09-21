@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  pkgs-unstable,
+  ...
+}: {
   imports = [
     ./shell
     ./nvim
@@ -9,17 +13,18 @@
 
   home.stateVersion = "25.05";
 
-  home.packages = with pkgs; [
-    vim
-    wget
-    curl
-    fastfetch
-    xclip #move this to de setup
+  home.packages = [
+    pkgs.vim
+    pkgs.wget
+    pkgs.curl
+    pkgs.fastfetch
+    pkgs.xclip #move this to de setup
 
-    ripgrep
+    pkgs.ripgrep
 
-    claude-code
+    pkgs.claude-code
+    pkgs-unstable.opencode
 
-    bitwarden-cli
+    pkgs.bitwarden-cli
   ];
 }
