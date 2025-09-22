@@ -4,12 +4,16 @@
 {
   config,
   pkgs,
+  pkgs-unstable,
+  inputs,
   ...
 }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
+
+  # nixpkgs.overlays = [inputs.self.overlays.alsa-ucm-conf-unstable];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -52,6 +56,10 @@
 
   services.xserver.enable = true;
   services.xserver.displayManager.startx.enable = true;
+  services.getty = {
+    autologinOnce = true;
+    autologinUser = "james";
+  };
   # Enable the GNOME Desktop Environment.
   # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
@@ -59,7 +67,7 @@
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "gb";
-    variant = "";
+    variant = "intl";
   };
 
   # Configure console keymap
@@ -76,6 +84,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
@@ -110,9 +119,20 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    asusctl
+  environment.systemPackages = [
+    pkgs.asusctl
+    # pkgs.alsa-topology-conf
+    # pkgs.alsa-firmware
+    # pkgs.alsa-utils
+
+    # pkgs-unstable.alsa-lib
+    pkgs-unstable.alsa-ucm-conf
   ];
+
+  systemd.user.services.pipewire.environment.ALSA_CONFIG_UCM = "${pkgs-unstable.alsa-ucm-conf}/share/alsa/ucm";
+  systemd.user.services.pipewire.environment.ALSA_CONFIG_UCM2 = "${pkgs-unstable.alsa-ucm-conf}/share/alsa/ucm2";
+  systemd.user.services.wireplumber.environment.ALSA_CONFIG_UCM = "${pkgs-unstable.alsa-ucm-conf}/share/alsa/ucm";
+  systemd.user.services.wireplumber.environment.ALSA_CONFIG_UCM2 = "${pkgs-unstable.alsa-ucm-conf}/share/alsa/ucm2";
 
   services = {
     asusd = {

@@ -26,8 +26,8 @@
   hardware.bluetooth.enable = true;
 
   environment.systemPackages = with pkgs; [
-    pipewire
-    wireplumber
+    # pipewire
+    # wireplumber
     sof-firmware
     pavucontrol
     bluez

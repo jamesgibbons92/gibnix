@@ -26,5 +26,7 @@
     pkgs-unstable.opencode
 
     pkgs.bitwarden-cli
+
+    pkgs.spotify-player
   ];
 }

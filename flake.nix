@@ -36,6 +36,12 @@
     #   };
     # };
   in {
+    # overlays = {
+    #   alsa-ucm-conf-unstable = final: prev: {
+    #     alsa-ucm-conf = inputs.nixpkgs-unstable.legacyPackages.${final.system}.alsa-ucm-conf;
+    #   };
+    # };
+
     nixosConfigurations = {
       /*
       desktop = lib.nixosSystem {
@@ -50,7 +56,7 @@
       macbook = lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs outputs;
+          inherit inputs outputs pkgs-unstable;
         };
         modules = [
           ./hosts/macbook/configuration.nix

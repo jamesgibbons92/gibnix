@@ -24,8 +24,14 @@
         searchDownKey = "$terminfo[kcud1]";
         searchUpKey = "$terminfo[kcuu1]";
       };
-      initContent = ''
-      '';
+      initContent =
+        if (pkgs ? hyprland)
+        then ''
+          if [ "$(tty)" = "/dev/tty1" ]; then
+            exec Hyprland
+          fi
+        ''
+        else "";
     };
     starship = {
       enable = true;
