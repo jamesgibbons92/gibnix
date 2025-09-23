@@ -31,7 +31,11 @@ in {
   # };
 
   home-manager.users.james = {
-    imports = [../../../../home/core.nix];
+    imports = [
+      ../../../../home/core.nix
+      ../../../../home/hosts/${config.networking.hostName}.nix
+    ];
+
     _module.args = {inherit pkgs-unstable;};
   };
 }

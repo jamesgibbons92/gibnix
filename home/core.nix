@@ -29,4 +29,11 @@
 
     pkgs.spotify-player
   ];
+
+  programs.ssh = {
+    enable = true;
+    addKeysToAgent = "yes";
+  };
+
+  services.ssh-agent.enable = true;
 }

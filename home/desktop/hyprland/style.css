@@ -2,7 +2,8 @@
     border: none;
     border-radius: 0;
     min-height: 0;
-    font-family: "mononoki";
+    /* font-family: "mononoki"; */
+    font-family: "JetBrains Mono";
     font-weight: bold;
     font-size: 16px;
     padding: 0;
