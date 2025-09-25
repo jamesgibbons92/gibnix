@@ -7,4 +7,8 @@
   programs.bun = {
     enable = true;
   };
+
+  programs.zsh.shellAliases = {
+    pn = "pnpm";
+  };
 }
