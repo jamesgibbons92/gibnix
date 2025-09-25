@@ -77,7 +77,10 @@
         animation = workspacesOut, 1, 1.94, almostLinear, fade
       }
 
-      exec-once=ghostty -e tmux "attach"
+      exec-once=ghostty
+      exec-once=firefox
+      exec-once=discord
+      exec-once=spotify
     '';
     settings = {
       "$mainMod" = "SUPER";
@@ -229,8 +232,8 @@
         "suppressevent maximize, class:.*"
         "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
         "workspace 1, class:(firefox)"
-        "workspace 2, class:(ghostty)"
-        "workspace 9, class:(ghostty), title:(spotify-player)"
+        "workspace 2, class:(com.mitchellh.ghostty)"
+        "workspace 9, class:(Spotify)"
         "workspace 9, class:(discord)"
       ];
 

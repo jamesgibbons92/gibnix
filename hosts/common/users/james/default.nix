@@ -25,6 +25,11 @@ in {
     packages = [pkgs.home-manager];
   };
 
+  services.getty = {
+    autologinOnce = true;
+    autologinUser = "james";
+  };
+
   # sops.secrets.james-password = {
   #   sopsFile = ../../secrets.yaml;
   #   neededForUsers = true;
@@ -32,7 +37,6 @@ in {
 
   home-manager.users.james = {
     imports = [
-      ../../../../home/core.nix
       ../../../../home/hosts/${config.networking.hostName}.nix
     ];
 

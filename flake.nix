@@ -9,6 +9,8 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-hardware.url = "github:nixos/nixos-hardware/master";
   };
 
   outputs = {
@@ -26,22 +28,7 @@
       inherit system;
       config.allowUnfree = true;
     };
-    # specialArgs = {inherit pkgs-unstable;};
-    # homeMgrGlobalCfg = {
-    #   home-manager.useGlobalPkgs = true;
-    #   home-manager.useUserPackages = true;
-    #   home-manager.users.${username} = {
-    #     home.stateVersion = "25.05";
-    #     programs.home-manager.enable = true;
-    #   };
-    # };
   in {
-    # overlays = {
-    #   alsa-ucm-conf-unstable = final: prev: {
-    #     alsa-ucm-conf = inputs.nixpkgs-unstable.legacyPackages.${final.system}.alsa-ucm-conf;
-    #   };
-    # };
-
     nixosConfigurations = {
       /*
       desktop = lib.nixosSystem {
@@ -71,7 +58,6 @@
         };
         modules = [
           ./hosts/s14/configuration.nix
-          ./hosts/common/core
           ./hosts/common/users/james
         ];
       };

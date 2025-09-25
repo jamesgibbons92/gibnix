@@ -1,5 +1,9 @@
-{pkgs, ...}: {
-  # imports = [./global];
+{...}: {
+  imports = [
+    ../core
+    ../dev
+    ../desktop
+  ];
 
   # TODO set as general options... instead of program specifc
   wayland.windowManager.hyprland.settings.input = {

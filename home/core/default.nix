@@ -7,8 +7,6 @@
     ./shell
     ./nvim
     ./git.nix
-
-    ./desktop # testing for now
   ];
 
   home.stateVersion = "25.05";
@@ -18,7 +16,7 @@
     pkgs.wget
     pkgs.curl
     pkgs.fastfetch
-    pkgs.xclip #move this to de setup
+    pkgs.jq
 
     pkgs.ripgrep
 
@@ -26,9 +24,16 @@
     pkgs-unstable.opencode
 
     pkgs.bitwarden-cli
-
-    pkgs.spotify-player
   ];
+
+  programs.btop = {
+    enable = true;
+    settings = {
+      color_theme = "gruvbox_dark";
+      theme_background = true;
+      update_ms = 500;
+    };
+  };
 
   programs.ssh = {
     enable = true;

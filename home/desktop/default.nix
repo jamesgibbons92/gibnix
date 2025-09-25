@@ -1,9 +1,19 @@
 {pkgs, ...}: {
+  programs.firefox.enable = true;
+
   home.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
+    wl-clipboard
+
+    blueman
+    playerctl
+    pavucontrol
+    brightnessctl # Maybe belongs in a laptop specific module?
 
     libnotify
 
+    spotify
+    spotify-player # tui fun
     bitwarden-desktop
     slack
     discord

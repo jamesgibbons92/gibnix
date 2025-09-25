@@ -6,8 +6,15 @@
 }: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
+
+    ./locale.nix
     # system packages/programs...
   ];
+
+  services.xserver = {
+    enable = true;
+    displayManager.startx.enable = true;
+  };
 
   programs.zsh.enable = true;
 
@@ -23,18 +30,8 @@
     };
   };
 
-  hardware.bluetooth.enable = true;
-
   environment.systemPackages = with pkgs; [
-    # pipewire
-    # wireplumber
-    sof-firmware
-    pavucontrol
-    bluez
-    blueman
-    playerctl
-    brightnessctl
-    kdePackages.dolphin # move to de module
+    gcc
   ];
 
   programs.dconf.enable = true;

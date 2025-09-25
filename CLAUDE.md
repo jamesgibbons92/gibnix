@@ -14,7 +14,7 @@ This is a **flakes-based NixOS configuration** with modular organization and Hom
   - `hosts/macbook/` - MacBook-specific configuration
   - `hosts/s14/` - S14 laptop configuration
 - `home/` - Home Manager configuration modules
-  - `home/core.nix` - Base user packages and imports
+  - `home/core` - Base user packages and imports
   - `home/desktop/` - Desktop environment (Hyprland) configuration
   - `home/nvim/` - Neovim configuration with LSP, formatting, themes
   - `home/shell/` - Shell configuration (tmux, zsh)
@@ -116,5 +116,5 @@ Both hosts share:
 - `flake.nix` - Main entry point with inputs and host definitions
 - `hosts/common/core/default.nix` - Shared system configuration
 - `hosts/common/users/james/default.nix` - User account and home-manager integration  
-- `home/core.nix` - Base home-manager configuration
+- `home/core` - Base home-manager configuration
 - `setup.sh` - Automated system setup and symlinking script
