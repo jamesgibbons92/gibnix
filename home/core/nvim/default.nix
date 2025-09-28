@@ -11,6 +11,9 @@
     ./telescope.nix
     ./harpoon.nix
     ./lsp.nix
+    ./copilot.nix
+    ./cmp.nix
+    ./session.nix
   ];
 
   programs.neovim = {
