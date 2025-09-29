@@ -47,6 +47,11 @@ in {
       bind -n C-M-l resize-pane -R 5
       bind -n C-M-k resize-pane -U 5
       bind -n C-M-j resize-pane -D 5
+      bind -n C-M-Left resize-pane -L 5
+      bind -n C-M-Right resize-pane -R 5
+      bind -n C-M-Up resize-pane -U 5
+      bind -n C-M-Down resize-pane -D 5
+
 
       # Options
       set -g repeat-time 1000
