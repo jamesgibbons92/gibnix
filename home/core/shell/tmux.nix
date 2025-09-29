@@ -53,7 +53,6 @@ in {
       set-option -g allow-rename off
       set -g set-clipboard on
       set -ga terminal-overrides ",$TERM:Tc"
-
     '';
 
     plugins = with pkgs.tmuxPlugins; [
