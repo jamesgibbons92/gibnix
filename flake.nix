@@ -11,6 +11,8 @@
     };
 
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
+
+    nixos-wsl.url = "github:nix-community/nixos-wsl/main";
   };
 
   outputs = {
@@ -18,6 +20,7 @@
     nixpkgs,
     nixpkgs-unstable,
     home-manager,
+nixos-wsl,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -61,6 +64,19 @@
           ./hosts/common/users/james
         ];
       };
+      erlang = lib.nixosSystem {
+        inherit system;
+       specialArgs = {
+           inherit inputs outputs pkgs-unstable;
+};         
+modules = [
+nixos-wsl.nixosModules.wsl
+          ./hosts/erlang/configuration.nix
+          ./hosts/common/users/james
+        ];
+
+
+     };
     };
   };
 }
