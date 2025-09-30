@@ -16,7 +16,7 @@ in {
     extraConfig = ''
       # Key bindings
       bind -n M-p switch-client -T panemode
-      bind -T panemode M-c kill-window
+      bind -T panemode M-c kill-pane
       bind -T panemod M-b break-pane
 
       bind -n M-w switch-client -T windowmode
