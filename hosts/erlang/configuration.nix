@@ -11,6 +11,8 @@
 }: {
   imports = [
     ../common/core
+
+    ../common/optional/virtualisation.nix
   ];
 
   wsl.enable = true;

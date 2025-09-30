@@ -1,3 +1,3 @@
-{...}: {
-  programs.lazydocker.enable = true;
+{config, ...}: {
+  programs.lazydocker.enable = config.virtualisation.docker.enable or false;
 }
