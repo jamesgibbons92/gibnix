@@ -10,6 +10,7 @@ in {
     prefix = "M-Space";
     mouse = true;
     terminal = "screen-256color";
+    newSession = true;
     escapeTime = 0;
     baseIndex = 1;
     clock24 = true;
@@ -57,7 +58,6 @@ in {
       set -g repeat-time 1000
       set-option -g allow-rename off
       set -g set-clipboard on
-      set -ga terminal-overrides ",$TERM:Tc"
     '';
 
     plugins = with pkgs.tmuxPlugins; [
@@ -74,9 +74,21 @@ in {
         plugin = continuum;
         extraConfig = ''
           set -g @continuum-restore 'on'
+          set -g @continuum-boot 'off'
           set -g @continuum-save-interval '2'
         '';
       }
     ];
+  };
+  systemd.user.services.tmuxserver = {
+    Install = {
+      WantedBy = ["default.target"];
+    };
+    Service = {
+      Type = "forking";
+      Environment = "TMUX_TMPDIR=/run/user/1000/";
+      ExecStart = "${pkgs.tmux}/bin/tmux start-server";
+      ExecStop = "${pkgs.tmux}/bin/tmux kill-server";
+    };
   };
 }

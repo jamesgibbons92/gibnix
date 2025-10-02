@@ -1,0 +1,20 @@
+{pkgs, ...}: {
+  programs.neovim = {
+    plugins = with pkgs.vimPlugins; [
+      auto-session
+    ];
+
+    extraLuaConfig =
+      /*
+      lua
+      */
+      ''
+<<<<<<< HEAD
+        require("auto-session").setup({})
+=======
+        require("auto-session").setup({
+        })
+>>>>>>> c79e3c2 (meh)
+      '';
+  };
+}
