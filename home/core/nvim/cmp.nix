@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   imports = [
-    ./copilot.nix
+    ./sidekick.nix
   ];
 
   programs.neovim = {

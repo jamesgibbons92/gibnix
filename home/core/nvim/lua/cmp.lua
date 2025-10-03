@@ -60,12 +60,9 @@ require("blink.cmp").setup({
         if cmp.is_menu_visible() then
           return cmp.select_and_accept()
         end
-        if vim.b[vim.api.nvim_get_current_buf()].nes_state then
-          cmp.hide()
-          return require("copilot-lsp.nes").apply_pending_nes() and require("copilot-lsp.nes").walk_cursor_end_edit()
-        end
+        return require("sidekick").nes_jump_or_apply()
       end,
-      "snippet_forward",
+      -- "snippet_forward",
       "fallback",
     },
     ["<Enter>"] = { "select_and_accept", "fallback" },

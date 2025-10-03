@@ -11,7 +11,8 @@
     ./telescope.nix
     ./harpoon.nix
     ./lsp.nix
-    ./copilot.nix
+    # ./copilot.nix
+    ./sidekick.nix
     ./cmp.nix
     ./session.nix
   ];

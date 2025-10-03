@@ -20,7 +20,7 @@
     nixpkgs,
     nixpkgs-unstable,
     home-manager,
-nixos-wsl,
+    nixos-wsl,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -66,17 +66,15 @@ nixos-wsl,
       };
       erlang = lib.nixosSystem {
         inherit system;
-       specialArgs = {
-           inherit inputs outputs pkgs-unstable;
-};         
-modules = [
-nixos-wsl.nixosModules.wsl
+        specialArgs = {
+          inherit inputs outputs pkgs-unstable;
+        };
+        modules = [
+          nixos-wsl.nixosModules.wsl
           ./hosts/erlang/configuration.nix
           ./hosts/common/users/james
         ];
-
-
-     };
+      };
     };
   };
 }

@@ -1,3 +1,5 @@
+-- copilot
+vim.lsp.enable("copilot")
 -- Nix LSP
 vim.lsp.config("nil_ls", {
   autostart = true,
