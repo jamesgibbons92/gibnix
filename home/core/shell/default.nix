@@ -7,15 +7,6 @@
     ./tmux.nix
   ];
 
-  home.packages = [
-    (pkgs.writeScriptBin "shell-tmux" ''
-      # Exit if already in a tmux session
-      if [[ -z "$TMUX" && ! $(tmux list-clients 2>/dev/null) ]]; then
-        tmux attach-session || tmux new-session
-      fi
-    '')
-  ];
-
   programs = {
     zsh = {
       enable = true;
@@ -33,8 +24,8 @@
         searchDownKey = "$terminfo[kcud1]";
         searchUpKey = "$terminfo[kcuu1]";
       };
-      initContent =
-        (
+      initContent = let
+        first = lib.mkOrder 500 (
           if (pkgs ? hyprland)
           then ''
             if [ "$(tty)" = "/dev/tty1" ]; then
@@ -42,10 +33,14 @@
             fi
           ''
           else ""
-        )
-        + ''
-          shell-tmux
+        );
+        last = lib.mkOrder 1600 ''
+          # if [ -z "$TMUX" ]; then
+          #   tmux a
+          # fi
         '';
+      in
+        lib.mkMerge [first last];
     };
     starship = {
       enable = true;
