@@ -81,8 +81,12 @@ in {
     ];
   };
   systemd.user.services.tmuxserver = {
+    Unit = {
+      Description = "Tmux server";
+      After = ["home-manager-james.service"];
+    };
     Install = {
-      WantedBy = ["default.target"];
+      WantedBy = ["multi-user.target"];
     };
     Service = {
       Type = "forking";
