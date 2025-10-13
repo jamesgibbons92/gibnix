@@ -90,7 +90,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { buffer = ev.buf, desc = "Go to Next [D]iagnostic Message" })
     vim.keymap.set(
       "n",
-      "<leader>q",
+      "<leader>Q",
       vim.diagnostic.setloclist,
       { buffer = ev.buf, desc = "Open Diagnostic [Q]uickfix List" }
     )

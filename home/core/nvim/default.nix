@@ -14,7 +14,10 @@
     # ./copilot.nix
     ./sidekick.nix
     ./cmp.nix
-    ./session.nix
+    # ./session.nix doesn't work yet
+    ./git.nix
+    ./mini.nix
+    ./which-key.nix
   ];
 
   programs.neovim = {
@@ -23,9 +26,6 @@
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
-    plugins = with pkgs.vimPlugins; [
-      which-key-nvim
-    ];
     extraLuaConfig = lib.mkBefore (builtins.readFile ./lua/init.lua);
   };
 }
