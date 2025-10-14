@@ -2,6 +2,7 @@
   home.packages = with pkgs; [
     pkgs.stylua # lua
     pkgs.alejandra # nix
+    pkgs.prettierd
   ];
   programs.neovim = {
     plugins = with pkgs.vimPlugins; [
@@ -16,11 +17,19 @@
           formatters_by_ft = {
             lua = { "stylua" },
             nix = { "alejandra" },
+            javascript = { "prettierd" },
+            typescript = { "prettierd" },
+            json = { "prettierd" },
+            jsonc = { "prettierd" },
+            yaml = { "prettierd" },
+            markdown = { "prettierd" },
+            html = { "prettierd" },
           },
           formatters = {
             stylua = {
               args = { "--indent-width", "2", "--indent-type", "Spaces", "-" },
-            }
+            },
+            prettierd = {},
           },
           format_on_save = {
             timeout_ms = 500,
