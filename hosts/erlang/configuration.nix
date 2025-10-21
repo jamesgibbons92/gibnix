@@ -17,7 +17,6 @@
 
   wsl.enable = true;
   wsl.defaultUser = "james";
-  nix.settings.experimental-features = ["nix-command" "flakes"];
   networking.hostName = "erlang";
 
   services.openssh.enable = true;
