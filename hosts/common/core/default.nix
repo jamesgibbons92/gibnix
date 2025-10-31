@@ -32,6 +32,7 @@
 
   environment.systemPackages = with pkgs; [
     gcc
+    gnumake
   ];
 
   programs.dconf.enable = true;
