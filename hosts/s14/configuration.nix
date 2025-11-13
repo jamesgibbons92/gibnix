@@ -16,6 +16,7 @@
     ../common/optional/audio.nix
     ../common/optional/virtualisation.nix
     ../common/optional/vpn.nix
+    ../common/optional/gaming.nix
   ];
 
   # nixpkgs.overlays = [inputs.self.overlays.alsa-ucm-conf-unstable];
