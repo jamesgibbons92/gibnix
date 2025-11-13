@@ -1,19 +1,7 @@
-{pkgs, ...}: {
+{pkgs-unstable, ...}: {
   programs.neovim = {
-    plugins = with pkgs; [
-      (pkgs.vimUtils.buildVimPlugin {
-        pname = "sidekick.nvim";
-        version = "2025-10-02";
-        src = pkgs.fetchFromGitHub {
-          owner = "folke";
-          repo = "sidekick.nvim";
-          rev = "8ebbd7578bcdd345b81ab0d3e6776133d6b0d140";
-          sha256 = "sha256-J1ZxbXPQXiahxhJol6F1gtPbqP0YeWinFEsyvrTQLxk";
-        };
-        doCheck = false;
-        meta.homepage = "https://github.com/folke/sidekick.nvim/";
-        meta.hydraPlatforms = [];
-      })
+    plugins = with pkgs-unstable; [
+      vimPlugins.sidekick-nvim
     ];
 
     extraLuaConfig =
@@ -37,6 +25,7 @@
         vim.keymap.set('x', "<leader>av", function() require("sidekick.cli").send({ msg = "{selection}" }) end, { desc = "Send Selection" })
         vim.keymap.set({ "x", "n" }, "<leader>ap", function() require("sidekick.cli").prompt() end, { desc = "Select prompt" })
         vim.keymap.set('n', "<tab>", function() if not require("sidekick").nes_jump_or_apply() then return "<Tab>" end end, { desc = "Goto/apply next edit" })
+        vim.keymap.set('n', "<leader>au", function() require("sidekick.nes").update() end, { desc = "NES update" })
       '';
   };
 }
