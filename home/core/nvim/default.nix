@@ -18,6 +18,7 @@
     ./git.nix
     ./mini.nix
     ./which-key.nix
+    ./colorizer.nix
   ];
 
   programs.neovim = {

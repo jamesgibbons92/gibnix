@@ -23,6 +23,7 @@
     enable = true;
     settings = {
       global = {
+        timeout = 5;
         monitor = 0;
         follow = "none";
         width = 350;
