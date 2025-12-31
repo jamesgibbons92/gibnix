@@ -83,6 +83,19 @@
     };
   };
 
+  # SST tunnel
+  security.sudo.extraRules = [
+    {
+      users = ["james"]; # Your username
+      commands = [
+        {
+          command = "/opt/sst/tunnel tunnel start *";
+          options = ["NOPASSWD" "SETENV"];
+        }
+      ];
+    }
+  ];
+
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 

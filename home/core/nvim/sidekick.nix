@@ -1,6 +1,6 @@
-{pkgs-unstable, ...}: {
+{pkgs, ...}: {
   programs.neovim = {
-    plugins = with pkgs-unstable; [
+    plugins = with pkgs; [
       vimPlugins.sidekick-nvim
     ];
 

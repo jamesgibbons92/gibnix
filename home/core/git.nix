@@ -1,8 +1,10 @@
 {pkgs, ...}: {
   programs.git = {
     enable = true;
-    userName = "James";
-    userEmail = "jay.m.gibbons@gmail.com";
+    settings.user = {
+      name = "James";
+      email = "10496761+jamesgibbons92@users.noreply.github.com";
+    };
   };
 
   programs.lazygit = {

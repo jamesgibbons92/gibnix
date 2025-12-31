@@ -1,8 +1,4 @@
-{
-  pkgs,
-  pkgs-unstable,
-  ...
-}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     bash-language-server
     gopls
@@ -14,7 +10,7 @@
   ];
 
   programs.neovim = {
-    plugins = with pkgs-unstable.vimPlugins; [
+    plugins = with pkgs.vimPlugins; [
       {
         plugin = nvim-lspconfig;
         type = "lua";

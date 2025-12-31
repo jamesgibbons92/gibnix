@@ -5,6 +5,7 @@
     ./aws.nix
     ./javascript.nix
     ./go.nix
+    ./godot.nix
   ];
 
   home.packages = with pkgs; [
