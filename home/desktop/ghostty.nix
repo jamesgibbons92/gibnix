@@ -3,7 +3,7 @@
     enable = true;
     enableZshIntegration = true;
     settings = {
-      theme = "GruvboxDarkHard";
+      theme = "Gruvbox Dark Hard";
       font-size = 10;
     };
   };

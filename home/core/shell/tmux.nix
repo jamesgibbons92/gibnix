@@ -58,7 +58,6 @@ in {
       set -g repeat-time 1000
       set-option -g allow-rename off
       set -g set-clipboard on
-      set -g default-path "~"
     '';
 
     plugins = with pkgs.tmuxPlugins; [
