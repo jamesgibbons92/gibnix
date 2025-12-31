@@ -115,3 +115,9 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.hl.on_yank()
   end,
 })
+
+-- Map Ctrl+p to jump forward in jumplist
+-- Ctrl+i (the default for jump forward) conflicts with Tab in terminals since they
+-- send the same escape sequence. When Tab is remapped for completion, Ctrl+i breaks.
+-- Use Ctrl+p as an alternative to jump forward (Ctrl+o still works for jump backward).
+vim.keymap.set("n", "<C-p>", "<C-i>", { desc = "Jump forward in jumplist" })
