@@ -81,6 +81,7 @@
       exec-once=firefox
       exec-once=discord
       exec-once=spotify
+      exec-once=[workspace special:magic silent] logseq
     '';
     settings = {
       "$mainMod" = "SUPER";
@@ -233,6 +234,7 @@
         "workspace 2, class:(com.mitchellh.ghostty)"
         "workspace 9, class:(Spotify)"
         "workspace 9, class:(discord)"
+        "workspace special:magic, class:(Logseq)"
       ];
 
       exec-once = [
