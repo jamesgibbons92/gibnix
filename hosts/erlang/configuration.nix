@@ -13,6 +13,8 @@
     ../common/core
 
     ../common/optional/virtualisation.nix
+    ../common/optional/logseq.nix
+    ../common/optional/sync.nix
   ];
 
   wsl.enable = true;

@@ -45,7 +45,7 @@
       devices = {
         "homelab" = {
           id = "IP2WGJC-CY7LDYV-QAM24HD-5BWYYCO-ZH6OCEW-UUAQWNY-AKFYFGO-5GFXHQX";
-          addresses = ["tcp://homelab:22000"];
+          addresses = ["tcp://homelab.bobcat-mirfak.ts.net:22000"];
           introducer = true;
           autoAcceptFolders = false;
         };
