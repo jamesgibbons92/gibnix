@@ -13,6 +13,8 @@
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
 
     nixos-wsl.url = "github:nix-community/nixos-wsl/main";
+
+    opencode.url = "github:anomalyco/opencode/762c58b756561e2730c0d2eb3d8f118ecbe270e3";
   };
 
   outputs = {
@@ -21,6 +23,7 @@
     nixpkgs-unstable,
     home-manager,
     nixos-wsl,
+    opencode,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -46,7 +49,7 @@
       macbook = lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs outputs pkgs-unstable;
+          inherit inputs outputs pkgs-unstable opencode;
         };
         modules = [
           ./hosts/macbook/configuration.nix
@@ -57,7 +60,7 @@
       bajie = lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs outputs pkgs-unstable;
+          inherit inputs outputs pkgs-unstable opencode;
         };
         modules = [
           ./hosts/s14/configuration.nix
@@ -67,7 +70,7 @@
       erlang = lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs outputs pkgs-unstable;
+          inherit inputs outputs pkgs-unstable opencode;
         };
         modules = [
           nixos-wsl.nixosModules.wsl

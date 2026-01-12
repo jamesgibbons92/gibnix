@@ -33,6 +33,7 @@
   environment.systemPackages = with pkgs; [
     gcc
     gnumake
+    nh
   ];
 
   programs.dconf.enable = true;
@@ -41,4 +42,8 @@
     trusted-users = ["root" "james"];
     experimental-features = ["nix-command" "flakes"];
   };
+
+  security.sudo.extraConfig = ''
+    Defaults timestamp_timeout=60
+  '';
 }

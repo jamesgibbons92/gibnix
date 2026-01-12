@@ -1,4 +1,4 @@
-{...}: {
+{opencode, ...}: {
   imports = [
     ../core
     ../dev

@@ -3,6 +3,7 @@
   config,
   lib,
   pkgs-unstable,
+  opencode,
   ...
 }: let
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
@@ -40,6 +41,8 @@ in {
       ../../../../home/hosts/${config.networking.hostName}.nix
     ];
 
-    _module.args = {inherit pkgs-unstable;};
+    _module.args = {
+      inherit pkgs-unstable opencode;
+    };
   };
 }

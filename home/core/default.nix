@@ -1,6 +1,7 @@
 {
   pkgs,
   pkgs-unstable,
+  opencode,
   ...
 }: {
   imports = [
@@ -21,7 +22,7 @@
     pkgs.ripgrep
 
     pkgs.claude-code
-    pkgs-unstable.opencode
+    opencode.packages.${pkgs.system}.default
 
     pkgs.bitwarden-cli
   ];
