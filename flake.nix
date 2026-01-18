@@ -14,7 +14,7 @@
 
     nixos-wsl.url = "github:nix-community/nixos-wsl/main";
 
-    opencode.url = "github:anomalyco/opencode/762c58b756561e2730c0d2eb3d8f118ecbe270e3";
+    opencode.url = "github:anomalyco/opencode/dev";
   };
 
   outputs = {
