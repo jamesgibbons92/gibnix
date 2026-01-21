@@ -77,7 +77,7 @@
       "format-ethernet": "󰊗 {ipaddr}/{cidr}",
       "format-disconnected": "no net",
       "tooltip-format": "{essid}",
-      "on-click": "ghostty -e iwctl"
+      "on-click": "ghostty -e nmtui"
     },
     "bluetooth": {
       "format": " {status}",
