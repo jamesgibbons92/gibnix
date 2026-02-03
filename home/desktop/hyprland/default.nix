@@ -9,6 +9,7 @@
     ./hyprlock.nix
     ./hyprpaper.nix
     ./rofi.nix
+    ./recorder.nix
   ];
 
   xdg.portal = {
