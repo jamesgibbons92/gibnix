@@ -4,7 +4,6 @@
 {
   config,
   pkgs,
-  pkgs-unstable,
   inputs,
   ...
 }: {
@@ -19,6 +18,7 @@
     ../common/optional/gaming.nix
     ../common/optional/sync.nix
     ../common/optional/logseq.nix
+    ../common/optional/printing.nix
   ];
 
   # nixpkgs.overlays = [inputs.self.overlays.alsa-ucm-conf-unstable];
@@ -40,16 +40,15 @@
 
   console.keyMap = "uk";
 
-  services.printing.enable = true;
   environment.systemPackages = [
     pkgs.asusctl
-    pkgs-unstable.alsa-ucm-conf
+    pkgs.alsa-ucm-conf
   ];
 
-  systemd.user.services.pipewire.environment.ALSA_CONFIG_UCM = "${pkgs-unstable.alsa-ucm-conf}/share/alsa/ucm";
-  systemd.user.services.pipewire.environment.ALSA_CONFIG_UCM2 = "${pkgs-unstable.alsa-ucm-conf}/share/alsa/ucm2";
-  systemd.user.services.wireplumber.environment.ALSA_CONFIG_UCM = "${pkgs-unstable.alsa-ucm-conf}/share/alsa/ucm";
-  systemd.user.services.wireplumber.environment.ALSA_CONFIG_UCM2 = "${pkgs-unstable.alsa-ucm-conf}/share/alsa/ucm2";
+  systemd.user.services.pipewire.environment.ALSA_CONFIG_UCM = "${pkgs.alsa-ucm-conf}/share/alsa/ucm";
+  systemd.user.services.pipewire.environment.ALSA_CONFIG_UCM2 = "${pkgs.alsa-ucm-conf}/share/alsa/ucm2";
+  systemd.user.services.wireplumber.environment.ALSA_CONFIG_UCM = "${pkgs.alsa-ucm-conf}/share/alsa/ucm";
+  systemd.user.services.wireplumber.environment.ALSA_CONFIG_UCM2 = "${pkgs.alsa-ucm-conf}/share/alsa/ucm2";
 
   services = {
     asusd = {

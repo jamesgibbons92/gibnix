@@ -2,7 +2,6 @@
   pkgs,
   config,
   lib,
-  pkgs-unstable,
   opencode,
   ...
 }: let
@@ -42,7 +41,7 @@ in {
     ];
 
     _module.args = {
-      inherit pkgs-unstable opencode;
+      inherit opencode;
     };
   };
 }

@@ -2,11 +2,11 @@
   description = "My NixOS Configurations";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -15,22 +15,28 @@
     nixos-wsl.url = "github:nix-community/nixos-wsl/main";
 
     opencode.url = "github:anomalyco/opencode/dev";
+
+    omanix = {
+      url = "github:T00fy/omanix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-unstable,
     home-manager,
     nixos-wsl,
     opencode,
+    omanix,
     ...
   } @ inputs: let
     inherit (self) outputs;
     system = "x86_64-linux";
     # username = "james";
     lib = nixpkgs.lib;
-    pkgs-unstable = import nixpkgs-unstable {
+    pkgs = import nixpkgs {
       inherit system;
       config.allowUnfree = true;
     };
@@ -49,7 +55,7 @@
       macbook = lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs outputs pkgs-unstable opencode;
+          inherit inputs outputs opencode;
         };
         modules = [
           ./hosts/macbook/configuration.nix
@@ -60,7 +66,7 @@
       bajie = lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs outputs pkgs-unstable opencode;
+          inherit inputs outputs opencode;
         };
         modules = [
           ./hosts/s14/configuration.nix
@@ -70,11 +76,22 @@
       erlang = lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs outputs pkgs-unstable opencode;
+          inherit inputs outputs opencode;
         };
         modules = [
           nixos-wsl.nixosModules.wsl
           ./hosts/erlang/configuration.nix
+          ./hosts/common/users/james
+        ];
+      };
+      wukong = lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs outputs opencode;
+        };
+        modules = [
+          ./hosts/desktop/configuration.nix
+          ./hosts/common/core
           ./hosts/common/users/james
         ];
       };

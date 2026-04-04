@@ -34,6 +34,7 @@
     gcc
     gnumake
     nh
+    unzip
   ];
 
   programs.dconf.enable = true;

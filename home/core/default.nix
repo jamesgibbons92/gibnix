@@ -1,6 +1,5 @@
 {
   pkgs,
-  pkgs-unstable,
   opencode,
   ...
 }: {
@@ -22,7 +21,8 @@
     pkgs.ripgrep
 
     pkgs.claude-code
-    opencode.packages.${pkgs.system}.default
+    # opencode.packages.${pkgs.system}.default
+    pkgs.opencode
 
     pkgs.bitwarden-cli
   ];

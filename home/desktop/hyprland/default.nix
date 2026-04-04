@@ -90,7 +90,14 @@
       "$fileManager" = "nautilus";
       "$shiftMod" = "SHIFT";
 
-      monitor = ",preferred,auto,1.25,bitdepth,8";
+      monitor = [
+        ",preferred,auto,1.0,bitdepth,8"
+        "HDMI-A-1,2560x1080@75,0x0,1,transform,1"
+      ];
+
+      cursor = {
+        no_hardware_cursors = true;
+      };
 
       xwayland = {
         force_zero_scaling = true;
@@ -228,15 +235,15 @@
         "$mainMod ALT, mouse:272, resizewindow"
       ];
 
-      windowrule = [
-        "suppressevent maximize, class:.*"
-        "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
-        "workspace 1, class:(firefox)"
-        "workspace 2, class:(com.mitchellh.ghostty)"
-        "workspace 9, class:(Spotify)"
-        "workspace 9, class:(discord)"
-        "workspace special:magic, class:(Logseq)"
-      ];
+      # windowrule = [
+      #   "suppressevent maximize, class:.*"
+      #   "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+      #   "workspace 1, class:(firefox)"
+      #   "workspace 2, class:(com.mitchellh.ghostty)"
+      #   "workspace 9, class:(Spotify)"
+      #   "workspace 9, class:(discord)"
+      #   "workspace special:magic, class:(Logseq)"
+      # ];
 
       exec-once = [
         "hyprpaper"
