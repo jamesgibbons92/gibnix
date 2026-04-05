@@ -13,7 +13,10 @@
   ];
 
   xdg.portal = {
-    extraPortals = [(pkgs.xdg-desktop-portal-hyprland.override {hyprland = config.wayland.windowManager.hyprland.package;})];
+    extraPortals = [
+      (pkgs.xdg-desktop-portal-hyprland.override {hyprland = config.wayland.windowManager.hyprland.package;})
+      pkgs.xdg-desktop-portal-gtk
+    ];
 
     config.hyprland = {
       default = ["hyprland" "gtk"];

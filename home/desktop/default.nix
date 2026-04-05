@@ -17,6 +17,9 @@
     bitwarden-desktop
     slack
     discord
+
+    blender
+    cura-appimage
   ];
 
   services.dunst = {
