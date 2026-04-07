@@ -13,6 +13,7 @@
     extraConfig = lib.mkAfter ''
       set -g default-terminal "tmux-256color"
       set-option -sa terminal-overrides ",xterm-256color:RGB"
+      set-option -sa terminal-features ",xterm-256color:clipboard"
     '';
   };
 }
