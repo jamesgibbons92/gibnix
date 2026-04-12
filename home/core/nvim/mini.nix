@@ -9,7 +9,7 @@
       mini-pairs
       mini-surround
     ];
-    extraLuaConfig = ''
+    initLua = ''
       -- Disable default 's' (substitute) command to avoid conflicts
       vim.keymap.set('n', 's', '<Nop>')
       vim.keymap.set('x', 's', '<Nop>')

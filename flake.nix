@@ -16,11 +16,16 @@
 
     opencode.url = "github:anomalyco/opencode/dev";
 
-    omanix = {
-      url = "github:T00fy/omanix";
+    stylix = {
+      url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
     };
+
+    # omanix = {
+    #   url = "github:T00fy/omanix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    #   inputs.home-manager.follows = "home-manager";
+    # };
   };
 
   outputs = {
@@ -29,7 +34,8 @@
     home-manager,
     nixos-wsl,
     opencode,
-    omanix,
+    stylix,
+    # omanix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -58,6 +64,7 @@
           inherit inputs outputs opencode;
         };
         modules = [
+          stylix.nixosModules.stylix
           ./hosts/macbook/configuration.nix
           ./hosts/common/core
           ./hosts/common/users/james
@@ -69,6 +76,7 @@
           inherit inputs outputs opencode;
         };
         modules = [
+          stylix.nixosModules.stylix
           ./hosts/s14/configuration.nix
           ./hosts/common/users/james
         ];
@@ -79,6 +87,7 @@
           inherit inputs outputs opencode;
         };
         modules = [
+          stylix.nixosModules.stylix
           nixos-wsl.nixosModules.wsl
           ./hosts/erlang/configuration.nix
           ./hosts/common/users/james
@@ -90,6 +99,7 @@
           inherit inputs outputs opencode;
         };
         modules = [
+          stylix.nixosModules.stylix
           ./hosts/desktop/configuration.nix
           ./hosts/common/core
           ./hosts/common/users/james

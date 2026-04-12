@@ -5,6 +5,6 @@
       telescope-fzf-native-nvim
       telescope-ui-select-nvim
     ];
-    extraLuaConfig = builtins.readFile ./lua/telescope.lua;
+    initLua = builtins.readFile ./lua/telescope.lua;
   };
 }

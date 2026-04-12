@@ -8,7 +8,7 @@
     plugins = with pkgs.vimPlugins; [
       git-blame-nvim
     ];
-    extraLuaConfig = ''
+    initLua = ''
       require('gitblame').setup({
         enabled = false,
         date_format = '%c',

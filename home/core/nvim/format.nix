@@ -8,7 +8,7 @@
     plugins = with pkgs.vimPlugins; [
       conform-nvim
     ];
-    extraLuaConfig =
+    initLua =
       /*
       lua
       */

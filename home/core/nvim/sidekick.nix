@@ -4,7 +4,7 @@
       vimPlugins.sidekick-nvim
     ];
 
-    extraLuaConfig =
+    initLua =
       /*
       lua
       */

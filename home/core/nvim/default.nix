@@ -27,6 +27,8 @@
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
-    extraLuaConfig = lib.mkBefore (builtins.readFile ./lua/init.lua);
+    withRuby = false;
+    withPython3 = false;
+    initLua = lib.mkBefore (builtins.readFile ./lua/init.lua);
   };
 }

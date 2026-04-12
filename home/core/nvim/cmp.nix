@@ -10,6 +10,6 @@
       friendly-snippets
     ];
 
-    extraLuaConfig = builtins.readFile ./lua/cmp.lua;
+    initLua = builtins.readFile ./lua/cmp.lua;
   };
 }

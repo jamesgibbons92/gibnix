@@ -1,14 +1,16 @@
 {pkgs, ...}: {
+  stylix.targets.neovim.enable = false;
+
   programs.neovim = {
     plugins = with pkgs.vimPlugins; [
-      gruvbox-material
+      tokyonight-nvim
     ];
-    extraLuaConfig =
+    initLua =
       /*
       lua
       */
       ''
-        vim.cmd[[ colorscheme gruvbox-material ]]
+        vim.cmd[[ colorscheme tokyonight-night ]]
       '';
   };
 }

@@ -11,6 +11,9 @@
 
   home.stateVersion = "25.05";
 
+  # Adopt new default: GTK4 theme no longer inherits from gtk.theme
+  gtk.gtk4.theme = null;
+
   home.packages = [
     pkgs.vim
     pkgs.wget
@@ -30,7 +33,6 @@
   programs.btop = {
     enable = true;
     settings = {
-      color_theme = "gruvbox_dark";
       theme_background = true;
       update_ms = 500;
     };

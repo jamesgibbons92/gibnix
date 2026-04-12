@@ -4,7 +4,7 @@
       persistence-nvim
     ];
 
-    extraLuaConfig =
+    initLua =
       /*
       lua
       */

@@ -3,7 +3,7 @@
     plugins = with pkgs.vimPlugins; [
       oil-nvim
     ];
-    extraLuaConfig =
+    initLua =
       /*
       lua
       */

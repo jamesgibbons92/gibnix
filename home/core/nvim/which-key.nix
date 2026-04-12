@@ -8,7 +8,7 @@
     plugins = with pkgs.vimPlugins; [
       which-key-nvim
     ];
-    extraLuaConfig = ''
+    initLua = ''
       require('which-key').setup({
         delay = 0,
         icons = {

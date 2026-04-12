@@ -4,7 +4,7 @@
       harpoon
     ];
 
-    extraLuaConfig =
+    initLua =
       /*
       lua
       */

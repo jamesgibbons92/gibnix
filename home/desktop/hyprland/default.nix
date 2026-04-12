@@ -23,17 +23,7 @@
     };
   };
 
-  # home.file.".icons/default".source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ";
-  home.pointerCursor = {
-    enable = true;
-    x11.enable = true;
-    gtk.enable = true;
-    hyprcursor = {
-      enable = true;
-    };
-    name = "DMZ-White";
-    package = pkgs.vanilla-dmz;
-  };
+  # Cursor is managed by Stylix
 
   home.packages = with pkgs; [
     nautilus
@@ -107,16 +97,13 @@
       };
 
       env = [
-        "XCURSOR_SIZE,24"
-        "HYPRCURSOR_SIZE,24"
       ];
 
       general = {
         gaps_in = 3;
         gaps_out = 6;
         border_size = 1;
-        "col.active_border" = "rgb(dedede)";
-        "col.inactive_border" = "rgba(595959aa)";
+        # Border colors are managed by Stylix
         resize_on_border = false;
         allow_tearing = false;
         layout = "dwindle";

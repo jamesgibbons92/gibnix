@@ -8,6 +8,7 @@
     inputs.home-manager.nixosModules.home-manager
 
     ./locale.nix
+    ./stylix.nix
     # system packages/programs...
   ];
 
@@ -19,6 +20,7 @@
   programs.zsh.enable = true;
 
   home-manager.useGlobalPkgs = true;
+  home-manager.backupFileExtension = "backup";
   home-manager.extraSpecialArgs = {
     inherit inputs outputs;
   };

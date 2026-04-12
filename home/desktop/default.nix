@@ -1,8 +1,12 @@
-{pkgs, ...}: {
-  programs.firefox.enable = true;
+{pkgs, lib, ...}: {
+  programs.firefox = {
+    enable = true;
+    profiles.default = {};
+  };
+
+  stylix.targets.firefox.profileNames = ["default"];
 
   home.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
     wl-clipboard
 
     blueman
@@ -51,11 +55,9 @@
         horizontal_padding = 8;
         text_icon_padding = 0;
         frame_width = 4;
-        frame_color = "#d3869b";
         gap_size = 1;
-        separator_color = "frame";
+        separator_color = lib.mkForce "frame";
         sort = true;
-        font = "Monospace 10";
         line_height = 0;
         markup = "full";
         format = "<b>%s</b>\n%b";
@@ -69,9 +71,7 @@
         show_indicators = true;
         min_icon_size = 16;
         max_icon_size = 128;
-        icon_path = "${pkgs.gruvbox-gtk-theme}/icons";
         enable_recursive_icon_lookup = true;
-        icon_theme = "Gruvbox-Dark";
         sticky_history = true;
         history_length = 20;
         dmenu = "rofi -dmenu -p dunst";
@@ -94,24 +94,17 @@
       };
 
       urgency_low = {
-        background = "#504945";
-        foreground = "#d4be98";
         timeout = 10;
         default_icon = "dialog-information";
       };
 
       urgency_normal = {
-        background = "#504945";
-        foreground = "#d4be98";
         timeout = 10;
         override_pause_level = 30;
         default_icon = "dialog-information";
       };
 
       urgency_critical = {
-        background = "#504945";
-        foreground = "#d4be98";
-        frame_color = "#ea6962";
         timeout = 0;
         override_pause_level = 60;
         default_icon = "dialog-warning";
@@ -119,23 +112,7 @@
     };
   };
 
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Gruvbox-Dark-Compact";
-      package = pkgs.gruvbox-gtk-theme.override {
-        colorVariants = ["dark"];
-        sizeVariants = ["compact"];
-        themeVariants = ["default"];
-      };
-    };
-    iconTheme = {
-      name = "Gruvbox-Dark";
-      package = pkgs.gruvbox-gtk-theme.override {
-        iconVariants = ["Dark"];
-      };
-    };
-  };
+  # GTK theme is managed by Stylix
 
   imports = [
     ./hyprland
