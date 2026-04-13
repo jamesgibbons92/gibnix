@@ -19,6 +19,7 @@
     ../common/optional/sync.nix
     ../common/optional/logseq.nix
     ../common/optional/printing.nix
+    ../common/optional/niri.nix
   ];
 
   # Use the systemd-boot EFI boot loader.

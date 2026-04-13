@@ -21,6 +21,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # omanix = {
     #   url = "github:T00fy/omanix";
     #   inputs.nixpkgs.follows = "nixpkgs";
@@ -35,6 +40,7 @@
     nixos-wsl,
     opencode,
     stylix,
+    niri,
     # omanix,
     ...
   } @ inputs: let
@@ -77,6 +83,7 @@
         };
         modules = [
           stylix.nixosModules.stylix
+          niri.nixosModules.niri
           ./hosts/s14/configuration.nix
           ./hosts/common/users/james
         ];
@@ -100,6 +107,7 @@
         };
         modules = [
           stylix.nixosModules.stylix
+          niri.nixosModules.niri
           ./hosts/desktop/configuration.nix
           ./hosts/common/core
           ./hosts/common/users/james

@@ -26,23 +26,11 @@
         searchDownKey = "$terminfo[kcud1]";
         searchUpKey = "$terminfo[kcuu1]";
       };
-      initContent = let
-        first = lib.mkOrder 500 (
-          if (pkgs ? hyprland)
-          then ''
-            if [ "$(tty)" = "/dev/tty1" ]; then
-              exec Hyprland
-            fi
-          ''
-          else ""
-        );
-        last = lib.mkOrder 1600 ''
-          # if [ -z "$TMUX" ]; then
-          #   tmux a
-          # fi
-        '';
-      in
-        lib.mkMerge [first last];
+      initContent = lib.mkOrder 1600 ''
+        # if [ -z "$TMUX" ]; then
+        #   tmux a
+        # fi
+      '';
     };
     direnv = {
       enable = true;

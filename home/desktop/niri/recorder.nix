@@ -4,7 +4,7 @@
   lib,
   ...
 }: {
-  config = lib.mkIf (config.desktop.windowManager == "hyprland") {
+  config = lib.mkIf (config.desktop.windowManager == "niri") {
     home.packages = with pkgs; [
       wf-recorder
       slurp
@@ -67,9 +67,5 @@
         fi
       '';
     };
-
-    wayland.windowManager.hyprland.settings.bind = [
-      "$mainMod, R, exec, $HOME/.local/bin/screen-capture.sh"
-    ];
   };
 }
