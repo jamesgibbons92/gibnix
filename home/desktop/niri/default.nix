@@ -190,6 +190,12 @@
           "Mod+Shift+K".action = actions.move-window-up-or-to-workspace-up;
           "Mod+Shift+J".action = actions.move-window-down-or-to-workspace-down;
 
+          # Monitor focus / move
+          "Mod+Comma".action = actions.focus-monitor-left;
+          "Mod+Period".action = actions.focus-monitor-right;
+          "Mod+Shift+Comma".action = actions.move-column-to-monitor-left;
+          "Mod+Shift+Period".action = actions.move-column-to-monitor-right;
+
           # Column width / window height
           "Mod+Minus".action = actions.set-column-width "-10%";
           "Mod+Equal".action = actions.set-column-width "+10%";
