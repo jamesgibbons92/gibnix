@@ -49,6 +49,12 @@
 
       libnotify
 
+      (wrapOBS {
+        plugins = with obs-studio-plugins; [
+          obs-pipewire-audio-capture
+        ];
+      })
+
       spotify
       spotify-player # tui fun
       bitwarden-desktop

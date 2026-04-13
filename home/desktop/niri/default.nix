@@ -147,6 +147,19 @@
             ];
             open-on-workspace = "9";
           }
+          # Red indicator on screencasted windows
+          {
+            matches = [{is-window-cast-target = true;}];
+            focus-ring = {
+              active.color = "#f38ba8";
+              inactive.color = "#7d0d2d";
+            };
+            border = {
+              enable = true;
+              active.color = "#f38ba8";
+              inactive.color = "#7d0d2d";
+            };
+          }
         ];
 
         # Keybindings - adapted from Hyprland config
@@ -216,6 +229,9 @@
 
           # Screen recording (wf-recorder region select -> WebP)
           "Mod+O".action = sh "$HOME/.local/bin/screen-capture.sh";
+
+          # Toggle OBS Studio
+          "Mod+Shift+O".action = sh "pgrep -x obs && pkill -x obs || obs";
 
           # Dynamic screencasting (niri built-in)
           "Mod+D".action = actions.set-dynamic-cast-window;

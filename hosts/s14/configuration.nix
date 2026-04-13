@@ -20,6 +20,7 @@
     ../common/optional/logseq.nix
     ../common/optional/printing.nix
     ../common/optional/niri.nix
+    ../common/optional/obs.nix
   ];
 
   # nixpkgs.overlays = [inputs.self.overlays.alsa-ucm-conf-unstable];
