@@ -177,6 +177,7 @@
           "Mod+V".action = actions.toggle-window-floating;
           "Mod+F".action = actions.maximize-column;
           "Mod+Shift+F".action = actions.fullscreen-window;
+          "Mod+Tab".action = actions.toggle-overview;
 
           # Focus movement (vim-style hjkl)
           "Mod+H".action = actions.focus-column-left;

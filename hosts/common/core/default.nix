@@ -17,6 +17,8 @@
     displayManager.startx.enable = true;
   };
 
+  boot.loader.systemd-boot.configurationLimit = 5;
+
   programs.zsh.enable = true;
 
   home-manager.useGlobalPkgs = true;
@@ -35,12 +37,19 @@
   environment.systemPackages = with pkgs; [
     gcc
     gnumake
-    nh
     unzip
   ];
 
   programs.dconf.enable = true;
   programs.nix-ld.enable = true;
+
+  programs.nh = {
+    enable = true;
+    clean = {
+      enable = true;
+      extraArgs = "--keep 5";
+    };
+  };
   nix.settings = {
     trusted-users = ["root" "james"];
     experimental-features = ["nix-command" "flakes"];
