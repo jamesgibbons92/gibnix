@@ -33,7 +33,16 @@ in {
       remotePlay.openFirewall = true;
       localNetworkGameTransfers.openFirewall = true;
       package = steamPatched;
-      gamescopeSession.enable = true;
+      gamescopeSession = {
+        enable = true;
+        args = [
+          "-W 2560"
+          "-H 1440"
+          "-r 144"
+          "-f"
+          "--adaptive-sync"
+        ];
+      };
     };
     gamescope.enable = true;
     gamemode.enable = true;

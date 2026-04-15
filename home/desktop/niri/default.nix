@@ -69,6 +69,15 @@
           "eDP-1" = {
             scale = 1.0;
           };
+          "DP-2" = {
+            mode = {
+              width = 2560;
+              height = 1440;
+              refresh = 144.0;
+            };
+            position.x = 0;
+            position.y = 0;
+          };
           "HDMI-A-1" = {
             transform.rotation = 90;
             position.x = -1080;
@@ -134,18 +143,25 @@
         window-rules = [
           {
             matches = [{app-id = "^org\\.mozilla\\.firefox$";}];
+            open-on-output = "DP-2";
             open-on-workspace = "1";
           }
           {
             matches = [{app-id = "^com\\.mitchellh\\.ghostty$";}];
+            open-on-output = "DP-2";
             open-on-workspace = "2";
           }
           {
-            matches = [
-              {app-id = "^discord$";}
-              {app-id = "^Spotify$";}
-            ];
+            matches = [{app-id = "^discord$";}];
+            open-on-output = "HDMI-A-1";
             open-on-workspace = "9";
+            default-column-width = {proportion = 1.0;};
+          }
+          {
+            matches = [{app-id = "^Spotify$";}];
+            open-on-output = "HDMI-A-1";
+            open-on-workspace = "9";
+            default-column-width = {proportion = 1.0;};
           }
           # Red indicator on screencasted windows
           {
