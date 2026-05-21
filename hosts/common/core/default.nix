@@ -55,6 +55,13 @@
     experimental-features = ["nix-command" "flakes"];
   };
 
+  security.wrappers.nethogs = {
+    source = "${pkgs.nethogs}/bin/nethogs";
+    capabilities = "cap_net_admin,cap_net_raw,cap_dac_read_search,cap_sys_ptrace+ep";
+    owner = "root";
+    group = "root";
+  };
+
   security.sudo.extraConfig = ''
     Defaults timestamp_timeout=60
   '';

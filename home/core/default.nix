@@ -28,6 +28,7 @@
     pkgs.opencode
 
     pkgs.bitwarden-cli
+    pkgs.nethogs
   ];
 
   programs.btop = {
