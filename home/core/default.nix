@@ -11,9 +11,6 @@
 
   home.stateVersion = "25.05";
 
-  # Adopt new default: GTK4 theme no longer inherits from gtk.theme
-  gtk.gtk4.theme = null;
-
   home.packages = [
     pkgs.vim
     pkgs.wget
@@ -43,9 +40,9 @@
     enable = true;
     enableDefaultConfig = false;
     # addKeysToAgent = "yes";
-    matchBlocks = {
+    settings = {
       "*" = {
-        addKeysToAgent = "yes";
+        AddKeysToAgent = "yes";
       };
     };
   };

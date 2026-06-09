@@ -79,9 +79,16 @@
             position.y = 0;
           };
           "HDMI-A-1" = {
-            transform.rotation = 90;
-            position.x = -1080;
-            position.y = 0;
+            # transform.rotation = 90;
+            # position.x = -1080;
+            # position.y = 0;
+            mode = {
+              width = 2560;
+              height = 1440;
+              refresh = 144.0;
+            };
+            # position.x = 0;
+            # position.y = 0;
           };
         };
 
@@ -284,6 +291,11 @@
 
           # Lock screen
           "Mod+Ctrl+L".action = actions.spawn "swaylock";
+        };
+
+        # Switch events - lock screen when laptop lid closes
+        switch-events = {
+          lid-close.action.spawn = ["swaylock"];
         };
       };
     };

@@ -35,6 +35,7 @@
     programs.firefox = {
       enable = true;
       profiles.default = {};
+      configPath = ".mozilla/firefox";
     };
 
     stylix.targets.firefox.profileNames = ["default"];
