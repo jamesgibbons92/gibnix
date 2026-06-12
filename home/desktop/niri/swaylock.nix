@@ -45,5 +45,26 @@ in {
         indicator-thickness = 7;
       };
     };
+
+    services.swayidle = {
+      enable = true;
+      timeouts = [
+        {
+          timeout = 115;
+          command = "${pkgs.libnotify}/bin/notify-send 'Locking in 5 seconds' -t 5000";
+        }
+
+        {
+          timeout = 120;
+          command = "${pkgs.bash}/bin/sh -c '${pkgs.swaylock}/bin/swaylock &'";
+        }
+
+        {
+          timeout = 300;
+          command = "${pkgs.systemd}/bin/systemctl suspend";
+        }
+      ];
+      events.before-sleep = "${pkgs.swaylock}/bin/swaylock";
+    };
   };
 }
