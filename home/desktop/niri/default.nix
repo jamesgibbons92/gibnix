@@ -5,10 +5,11 @@
   ...
 }: {
   imports = [
-    ./waybar.nix
+    # ./waybar.nix
     ./wallpaper.nix
     ./swaylock.nix
     ./recorder.nix
+    ./noctalia.nix
   ];
 
   config = lib.mkIf (config.desktop.windowManager == "niri") {
@@ -67,7 +68,7 @@
         # Output / monitor configuration
         outputs = {
           "eDP-1" = {
-            scale = 1.0;
+            scale = 1.25;
           };
           "DP-2" = {
             mode = {
@@ -90,6 +91,13 @@
             # position.x = 0;
             # position.y = 0;
           };
+        };
+
+        # Named workspaces (referenced by window-rules)
+        workspaces = {
+          "web" = {};
+          "terminal" = {};
+          "media" = {};
         };
 
         # Layout - Niri's scrollable tiling
@@ -133,7 +141,8 @@
         # Startup applications
         spawn-at-startup = [
           {argv = ["xwayland-satellite"];}
-          {argv = ["waybar"];}
+          {argv = ["noctalia"];}
+          # {argv = ["waybar"];}
           {argv = ["swaybg" "-i" "${config.stylix.image}" "-m" "fill"];}
           {argv = ["ghostty"];}
           {argv = ["firefox"];}
@@ -149,26 +158,22 @@
         # Window rules
         window-rules = [
           {
-            matches = [{app-id = "^org\\.mozilla\\.firefox$";}];
-            open-on-output = "DP-2";
-            open-on-workspace = "1";
+            matches = [{app-id = "firefox";}];
+            open-on-workspace = "web";
+            open-maximized = true;
           }
           {
-            matches = [{app-id = "^com\\.mitchellh\\.ghostty$";}];
-            open-on-output = "DP-2";
-            open-on-workspace = "2";
+            matches = [{app-id = "com.mitchellh.ghostty";}];
+            open-on-workspace = "terminal";
+            open-maximized = true;
           }
           {
-            matches = [{app-id = "^discord$";}];
-            open-on-output = "HDMI-A-1";
-            open-on-workspace = "9";
-            default-column-width = {proportion = 1.0;};
+            matches = [{app-id = "discord";}];
+            open-on-workspace = "media";
           }
           {
-            matches = [{app-id = "^Spotify$";}];
-            open-on-output = "HDMI-A-1";
-            open-on-workspace = "9";
-            default-column-width = {proportion = 1.0;};
+            matches = [{app-id = "Spotify";}];
+            open-on-workspace = "media";
           }
           # Red indicator on screencasted windows
           {

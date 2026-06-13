@@ -26,6 +26,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    noctalia = {
+      url = "github:noctalia-dev/noctalia";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # omanix = {
     #   url = "github:T00fy/omanix";
     #   inputs.nixpkgs.follows = "nixpkgs";
