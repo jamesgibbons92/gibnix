@@ -9,6 +9,7 @@
   imports = [
     ./hardware-configuration.nix
     ../common/optional/printing.nix
+    ../common/optional/power.nix
   ];
 
   # Bootloader.

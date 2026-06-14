@@ -9,16 +9,25 @@
     settings = {
       bar.default = {
         center = ["media" "audio_visualizer" "clock"];
-        end = ["group:g1" "tray" "notifications" "clipboard" "bluetooth" "volume" "battery" "control-center" "session"];
+        end = ["group:g1" "tray" "notifications" "clipboard" "bluetooth" "volume" "group:2" "control-center" "session"];
         margin_edge = 4;
         margin_ends = 4;
-        start = ["launcher" "workspaces"];
+
+        start = ["launcher" "workspaces" "cpu" "ram"];
+
         widget_spacing = 13;
         capsule_group = [
           {
             fill = "surface_variant";
             id = "g1";
             members = ["network" "network_rx" "network_tx"];
+            opacity = 1.0;
+            padding = 6.0;
+          }
+          {
+            fill = "surface_variant";
+            id = "g2";
+            members = ["power_profile" "battery"];
             opacity = 1.0;
             padding = 6.0;
           }

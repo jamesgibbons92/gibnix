@@ -21,6 +21,7 @@
     ../common/optional/printing.nix
     ../common/optional/niri.nix
     ../common/optional/obs.nix
+    ../common/optional/power.nix
   ];
 
   # nixpkgs.overlays = [inputs.self.overlays.alsa-ucm-conf-unstable];
@@ -57,7 +58,7 @@
       asusdConfig = {
         text = ''
           (
-              charge_control_end_threshold: 80,
+              charge_control_end_threshold: 85,
               disable_nvidia_powerd_on_battery: true,
               ac_command: "",
               bat_command: "",
