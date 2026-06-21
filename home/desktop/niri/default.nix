@@ -224,16 +224,16 @@
 
           # Column width / window height
           "Mod+Minus".action = actions.set-column-width "-10%";
-          "Mod+Equal".action = actions.set-column-width "+10%";
+          "Mod+Plus".action = actions.set-column-width "+10%";
           "Mod+Shift+Minus".action = actions.set-window-height "-10%";
-          "Mod+Shift+Equal".action = actions.set-window-height "+10%";
+          "Mod+Shift+Plus".action = actions.set-window-height "+10%";
 
           # Cycle column widths through presets
           "Mod+R".action = actions.switch-preset-column-width;
 
           # Consume / expel windows from column
-          "Mod+BracketLeft".action = actions.consume-or-expel-window-left;
-          "Mod+BracketRight".action = actions.consume-or-expel-window-right;
+          "Mod+N".action = actions.consume-or-expel-window-left;
+          "Mod+M".action = actions.consume-or-expel-window-right;
 
           # Workspace navigation (1-10)
           "Mod+1".action = actions.focus-workspace 1;

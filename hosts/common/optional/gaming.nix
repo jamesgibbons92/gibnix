@@ -38,9 +38,10 @@ in {
         args = [
           "-W 2560"
           "-H 1440"
-          "-r 144"
-          "-f"
-          "--adaptive-sync"
+          "-r 60"
+          "-tenfoot"
+          # "-f"
+          # "--adaptive-sync"
         ];
       };
     };
