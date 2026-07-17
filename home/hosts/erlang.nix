@@ -1,11 +1,16 @@
 {
   lib,
+  pkgs,
   opencode,
   ...
 }: {
   imports = [
     ../core
     ../dev
+  ];
+
+  home.packages = with pkgs; [
+    xclip
   ];
 
   programs.tmux = {
