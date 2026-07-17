@@ -1,4 +1,4 @@
-{inputs, ...}: {
+{inputs, lib, ...}: {
   imports = [
     inputs.noctalia.homeModules.default
   ];
@@ -63,18 +63,18 @@
       };
 
       shell = {
-        font_family = "JetBrainsMono NF";
+        font_family = lib.mkForce "JetBrainsMono NF";
       };
 
       theme = {
-        mode = "dark";
-        source = "builtin";
-        builtin = "Tokyo-Night";
+        mode = lib.mkForce "dark";
+        source = lib.mkForce "builtin";
+        builtin = lib.mkForce "Tokyo-Night";
       };
 
       wallpaper = {
         enabled = true;
-        default.path = "/path/to/wallpapers/wallpaper.png";
+        default.path = lib.mkForce "/path/to/wallpapers/wallpaper.png";
       };
     };
   };

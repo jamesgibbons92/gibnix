@@ -58,12 +58,12 @@
 
       spotify
       spotify-player # tui fun
-      bitwarden-desktop
+      # bitwarden-desktop
       slack
       discord
 
-      blender
-      cura-appimage
+      # blender
+      # cura-appimage
     ];
 
     services.dunst = {

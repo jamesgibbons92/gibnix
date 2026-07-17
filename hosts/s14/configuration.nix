@@ -15,7 +15,6 @@
     ../common/optional/audio.nix
     ../common/optional/virtualisation.nix
     ../common/optional/vpn.nix
-    ../common/optional/gaming.nix
     ../common/optional/sync.nix
     ../common/optional/logseq.nix
     ../common/optional/printing.nix
