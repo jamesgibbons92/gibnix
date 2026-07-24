@@ -15,6 +15,9 @@
   boot.initrd.availableKernelModules = ["ahci" "xhci_pci" "usbhid" "sd_mod"];
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-amd"];
+  # Required for nvidia powerManagement to preserve video memory allocations
+  # across suspend/resume. Without this, VRAM is lost and the display stays black.
+  boot.kernelParams = ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
   boot.extraModulePackages = [];
 
   fileSystems."/" = {
@@ -49,14 +52,14 @@
     # Modesetting is required.
     modesetting.enable = true;
 
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
-    # of just the bare essentials.
-    powerManagement.enable = false;
+    # Nvidia power management. Saves VRAM to /tmp on suspend and restores on resume.
+    # Required for proper suspend/resume on Wayland — without this, the display
+    # stays black on resume because the compositor's VRAM allocations are lost.
+    powerManagement.enable = true;
 
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+    # Fine-grained power management turns off the GPU when idle. Requires NVIDIA
+    # Optimus offload (hybrid iGPU + dGPU), so only suitable for laptops. Disabled
+    # on this desktop which has a dedicated NVIDIA GPU only.
     powerManagement.finegrained = false;
 
     # Use the NVidia open source kernel module (not to be confused with the
