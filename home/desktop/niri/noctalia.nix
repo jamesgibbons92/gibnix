@@ -72,10 +72,9 @@
         builtin = lib.mkForce "Tokyo-Night";
       };
 
-      wallpaper = {
-        enabled = true;
-        default.path = lib.mkForce "/path/to/wallpapers/wallpaper.png";
-      };
+      # Wallpaper is handled by swaybg + Stylix (see wallpaper.nix / default.nix).
+      # Leave noctalia's wallpaper layer disabled so it doesn't cover swaybg.
+      wallpaper.enabled = false;
     };
   };
 }
