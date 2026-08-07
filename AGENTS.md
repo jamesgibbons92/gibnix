@@ -41,11 +41,16 @@ nix search nixpkgs <package>          # Search packages
 
 ## Current Hosts
 
-| Hostname  | Directory        | Description           |
-| --------- | ---------------- | --------------------- |
-| `bajie`   | `hosts/s14/`     | S14 laptop (primary)  |
-| `macbook` | `hosts/macbook/` | MacBook configuration |
-| `erlang`  | `hosts/erlang/`  | WSL configuration     |
+| Hostname  | Directory        | Description                    |
+| --------- | ---------------- | ------------------------------ |
+| `bajie`   | `hosts/s14/`     | S14 laptop (primary)           |
+| `wukong`  | `hosts/desktop/` | Desktop, NVIDIA (niri + games) |
+| `macbook` | `hosts/macbook/` | MacBook configuration          |
+| `erlang`  | `hosts/erlang/`  | WSL configuration              |
+
+`wukong` runs niri day to day and keeps a Plasma 6 session for gaming, entered with the
+`game` command (`--x11` for the X11 session) and left by logging out. See
+`home/desktop/gaming.nix` and `hosts/common/optional/plasma.nix`.
 
 ## Code Style Guidelines
 
