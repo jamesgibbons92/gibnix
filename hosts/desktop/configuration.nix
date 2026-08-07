@@ -20,6 +20,7 @@
     ../common/optional/logseq.nix
     ../common/optional/printing.nix
     ../common/optional/niri.nix
+    ../common/optional/plasma.nix
     ../common/optional/obs.nix
   ];
 

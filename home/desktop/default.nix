@@ -159,6 +159,7 @@
   imports = [
     ./ghostty.nix
     ./rofi.nix
+    ./gaming.nix
     ./hyprland
     ./niri
   ];

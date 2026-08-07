@@ -7,6 +7,7 @@
 
   desktop.windowManager = "niri";
   desktop.keyboardLayout = "gb";
+  desktop.gaming.enable = true;
   programs.niri.settings.outputs = {
     "HDMI-A-1" = {
       transform.rotation = 90;
