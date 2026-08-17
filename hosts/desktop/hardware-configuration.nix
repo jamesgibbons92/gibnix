@@ -13,7 +13,6 @@
   ];
 
   boot.initrd.availableKernelModules = ["ahci" "xhci_pci" "usbhid" "sd_mod"];
-  boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-amd"];
   # Required for nvidia powerManagement to preserve video memory allocations
   # across suspend/resume. Without this, VRAM is lost and the display stays black.
@@ -39,42 +38,35 @@
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   # GPU
-  # Enable OpenGL
   hardware.graphics = {
     enable = true;
-    enable32Bit = true; # Required for 32-bit Proton/Wine games
+    enable32Bit = true;
   };
 
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = ["nvidia"];
 
+  boot.initrd.kernelModules = [
+    "nvidia"
+    "nvidia_modeset"
+    "nvidia_uvm"
+    "nvidia_drm"
+  ];
+
   hardware.nvidia = {
-    # Modesetting is required.
     modesetting.enable = true;
-
-    # Nvidia power management. Saves VRAM to /tmp on suspend and restores on resume.
-    # Required for proper suspend/resume on Wayland — without this, the display
-    # stays black on resume because the compositor's VRAM allocations are lost.
     powerManagement.enable = true;
-
-    # Fine-grained power management turns off the GPU when idle. Requires NVIDIA
-    # Optimus offload (hybrid iGPU + dGPU), so only suitable for laptops. Disabled
-    # on this desktop which has a dedicated NVIDIA GPU only.
     powerManagement.finegrained = false;
-
-    # Use the NVidia open source kernel module (not to be confused with the
-    # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of
-    # supported GPUs is at:
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
-    # Only available from driver 515.43.04+
     open = true;
-
-    # Enable the Nvidia settings menu,
-    # accessible via `nvidia-settings`.
     nvidiaSettings = true;
-
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    videoAcceleration = true;
+    package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+      version = "595.84";
+      sha256_64bit = "sha256-mcQE5SExvye8ptoCaNzOPr7cenOrF0BxqZXPGmxeugY=";
+      sha256_aarch64 = "sha256-GloNdDFfmXFVu4FAlNNk2qzqLOuw2N5CKatKkcSrQxk=";
+      openSha256 = "sha256-pEmA2tUcOKwUPKy6N0QvS49Pdut4/7Phs/JhjdyBcNY=";
+      settingsSha256 = "sha256-QrnBM+sdWO4GanO62rxpHmRrjYkYpl5RD6fIiHq4C4A=";
+      persistencedSha256 = "sha256-50xYdgx7EEThbaMp4QS8GADbxj0mhBXh8QQN0tWMwRg=";
+    };
   };
 }
