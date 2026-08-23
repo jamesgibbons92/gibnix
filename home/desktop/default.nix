@@ -64,6 +64,7 @@
 
       # blender
       # cura-appimage
+      vivaldi
     ];
 
     services.dunst = {
