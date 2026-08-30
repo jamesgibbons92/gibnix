@@ -22,6 +22,7 @@
     ../common/optional/obs.nix
     ../common/optional/power.nix
     ../common/optional/appimage.nix
+    ../common/optional/peripheral.nix
   ];
 
   # nixpkgs.overlays = [inputs.self.overlays.alsa-ucm-conf-unstable];

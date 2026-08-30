@@ -22,6 +22,7 @@
     ../common/optional/niri.nix
     ../common/optional/plasma.nix
     ../common/optional/obs.nix
+    ../common/optional/peripheral.nix
     # ../common/optional/appimage.nix
   ];
 
