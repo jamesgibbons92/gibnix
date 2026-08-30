@@ -17,6 +17,7 @@
     pkgs.curl
     pkgs.fastfetch
     pkgs.jq
+    pkgs.dig
 
     pkgs.ripgrep
 

@@ -75,7 +75,7 @@
         exec-once=firefox
         exec-once=discord
         exec-once=spotify
-        exec-once=[workspace special:magic silent] logseq
+        # exec-once=[workspace special:magic silent] logseq
       '';
       settings = {
         "$mainMod" = "SUPER";

@@ -17,7 +17,7 @@
     ../common/optional/vpn.nix
     ../common/optional/gaming.nix
     ../common/optional/sync.nix
-    ../common/optional/logseq.nix
+    # ../common/optional/logseq.nix
     ../common/optional/printing.nix
     ../common/optional/niri.nix
     ../common/optional/plasma.nix
