@@ -132,6 +132,14 @@
         # Prefer server-side decorations
         prefer-no-csd = true;
 
+        # Work around PipeWire screencast format negotiation failures
+        # (e.g. Discord screenshare closing immediately with
+        # "no more input formats (-22)") by forcing a modifier-less
+        # DMA-BUF fallback.
+        debug = {
+          force-pipewire-invalid-modifier = true;
+        };
+
         # Screenshot path
         screenshot-path = "~/screenshots/%Y-%m-%d_%H-%M-%S.png";
 
@@ -143,7 +151,7 @@
           {argv = ["swaybg" "-i" "${config.stylix.image}" "-m" "fill"];}
           {argv = ["ghostty"];}
           {argv = ["firefox"];}
-          {argv = ["discord"];}
+          {argv = ["vesktop"];}
           {argv = ["spotify"];}
         ];
 
@@ -165,7 +173,7 @@
             open-maximized = true;
           }
           {
-            matches = [{app-id = "discord";}];
+            matches = [{app-id = "vesktop";}];
             open-on-workspace = "media";
           }
           {

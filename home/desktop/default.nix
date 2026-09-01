@@ -60,7 +60,7 @@
       spotify-player # tui fun
       # bitwarden-desktop
       slack
-      discord
+      vesktop
 
       # blender
       # cura-appimage

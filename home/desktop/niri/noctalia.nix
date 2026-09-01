@@ -9,7 +9,7 @@
     settings = {
       bar.default = {
         center = ["media" "audio_visualizer" "clock"];
-        end = ["group:g1" "tray" "notifications" "clipboard" "bluetooth" "volume" "group:2" "control-center" "session"];
+        end = ["group:g1" "tray" "notifications" "clipboard" "bluetooth" "volume" "group:g2" "control-center" "session"];
         margin_edge = 4;
         margin_ends = 4;
 
