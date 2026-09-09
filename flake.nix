@@ -16,6 +16,8 @@
 
     opencode.url = "github:anomalyco/opencode/dev";
 
+    herdr.url = "github:herdrdev/herdr/master";
+
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -45,6 +47,7 @@
       home-manager,
       nixos-wsl,
       opencode,
+      herdr,
       stylix,
       niri,
       # omanix,
@@ -75,7 +78,7 @@
         macbook = lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs outputs opencode;
+            inherit inputs outputs opencode herdr;
           };
           modules = [
             stylix.nixosModules.stylix
@@ -87,7 +90,7 @@
         bajie = lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs outputs opencode;
+            inherit inputs outputs opencode herdr;
           };
           modules = [
             stylix.nixosModules.stylix
@@ -99,7 +102,7 @@
         erlang = lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs outputs opencode;
+            inherit inputs outputs opencode herdr;
           };
           modules = [
             stylix.nixosModules.stylix
@@ -111,7 +114,7 @@
         thinkpad = lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs outputs opencode;
+            inherit inputs outputs opencode herdr;
           };
           modules = [
             stylix.nixosModules.stylix
@@ -124,7 +127,7 @@
         wukong = lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs outputs opencode;
+            inherit inputs outputs opencode herdr;
           };
           modules = [
             stylix.nixosModules.stylix

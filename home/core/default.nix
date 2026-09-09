@@ -1,6 +1,7 @@
 {
   pkgs,
   opencode,
+  herdr,
   ...
 }: {
   imports = [
@@ -24,6 +25,7 @@
     pkgs.claude-code
     # opencode.packages.${pkgs.system}.default
     pkgs.opencode
+    herdr.packages.${pkgs.system}.default
 
     pkgs.bitwarden-cli
     pkgs.nethogs

@@ -11,6 +11,10 @@
     enable = true;
   };
 
+  home.packages = with pkgs; [
+    gh
+  ];
+
   programs.zsh.shellAliases = {
     lg = "lazygit";
   };
