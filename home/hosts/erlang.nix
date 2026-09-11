@@ -1,24 +1,27 @@
-{
-  lib,
-  pkgs,
-  opencode,
-  ...
-}: {
+{...}: {
   imports = [
     ../core
     ../dev
+    ../desktop
   ];
 
-  home.packages = with pkgs; [
-    xclip
-  ];
+  desktop.windowManager = "niri";
+  desktop.keyboardLayout = "gb";
 
-  programs.tmux = {
-    # Fix colour issues when running in windows terminal
-    extraConfig = lib.mkAfter ''
-      set -g default-terminal "tmux-256color"
-      set-option -sa terminal-overrides ",xterm-256color:RGB"
-      set-option -sa terminal-features ",xterm-256color:clipboard"
-    '';
+  programs.niri.settings.outputs = {
+    "eDP-1" = {
+      scale = 1.25;
+      position.x = 0;
+      position.y = 0;
+    };
+    "HDMI-A-1" = {
+      mode = {
+        width = 2560;
+        height = 1440;
+        refresh = 144.0;
+      };
+      # position.x = 2880;
+      # position.y = 0;
+    };
   };
 }

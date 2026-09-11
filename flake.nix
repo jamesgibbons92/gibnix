@@ -40,103 +40,99 @@
     # };
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      nixos-wsl,
-      opencode,
-      herdr,
-      stylix,
-      niri,
-      # omanix,
-      ...
-    }@inputs:
-    let
-      inherit (self) outputs;
-      system = "x86_64-linux";
-      # username = "james";
-      lib = nixpkgs.lib;
-      pkgs = import nixpkgs {
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    nixos-wsl,
+    opencode,
+    herdr,
+    stylix,
+    niri,
+    # omanix,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
+    system = "x86_64-linux";
+    # username = "james";
+    lib = nixpkgs.lib;
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+    };
+  in {
+    nixosConfigurations = {
+      /*
+      desktop = lib.nixosSystem {
         inherit system;
-        config.allowUnfree = true;
+        modules = [
+          ./hosts/desktop/configuration.nix
+          ./common/users.nix
+          ./common/packages.nix
+        ];
       };
-    in
-    {
-      nixosConfigurations = {
-        /*
-          desktop = lib.nixosSystem {
-            inherit system;
-            modules = [
-              ./hosts/desktop/configuration.nix
-              ./common/users.nix
-              ./common/packages.nix
-            ];
-          };
-        */
-        macbook = lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs outputs opencode herdr;
-          };
-          modules = [
-            stylix.nixosModules.stylix
-            ./hosts/macbook/configuration.nix
-            ./hosts/common/core
-            ./hosts/common/users/james
-          ];
+      */
+      macbook = lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs outputs opencode herdr;
         };
-        bajie = lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs outputs opencode herdr;
-          };
-          modules = [
-            stylix.nixosModules.stylix
-            niri.nixosModules.niri
-            ./hosts/s14/configuration.nix
-            ./hosts/common/users/james
-          ];
+        modules = [
+          stylix.nixosModules.stylix
+          ./hosts/macbook/configuration.nix
+          ./hosts/common/core
+          ./hosts/common/users/james
+        ];
+      };
+      bajie = lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs outputs opencode herdr;
         };
-        erlang = lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs outputs opencode herdr;
-          };
-          modules = [
-            stylix.nixosModules.stylix
-            nixos-wsl.nixosModules.wsl
-            ./hosts/erlang/configuration.nix
-            ./hosts/common/users/james
-          ];
+        modules = [
+          stylix.nixosModules.stylix
+          niri.nixosModules.niri
+          ./hosts/s14/configuration.nix
+          ./hosts/common/users/james
+        ];
+      };
+      erlang = lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs outputs opencode herdr;
         };
-        thinkpad = lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs outputs opencode herdr;
-          };
-          modules = [
-            stylix.nixosModules.stylix
-            niri.nixosModules.niri
-            ./hosts/thinkpad/configuration.nix
-            ./hosts/common/users/james
-          ];
-
+        modules = [
+          stylix.nixosModules.stylix
+          niri.nixosModules.niri
+          ./hosts/erlang/configuration.nix
+          ./hosts/common/users/james
+        ];
+      };
+      thinkpad = lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs outputs opencode herdr;
         };
-        wukong = lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs outputs opencode herdr;
-          };
-          modules = [
-            stylix.nixosModules.stylix
-            niri.nixosModules.niri
-            ./hosts/desktop/configuration.nix
-            ./hosts/common/core
-            ./hosts/common/users/james
-          ];
+        modules = [
+          stylix.nixosModules.stylix
+          niri.nixosModules.niri
+          ./hosts/thinkpad/configuration.nix
+          ./hosts/common/users/james
+        ];
+      };
+      wukong = lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs outputs opencode herdr;
         };
+        modules = [
+          stylix.nixosModules.stylix
+          niri.nixosModules.niri
+          ./hosts/desktop/configuration.nix
+          ./hosts/common/core
+          ./hosts/common/users/james
+        ];
       };
     };
+  };
 }
