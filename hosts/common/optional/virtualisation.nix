@@ -7,5 +7,6 @@
     kubectl
     k9s
     sops
+    docker-sbx
   ];
 }

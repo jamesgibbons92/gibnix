@@ -204,6 +204,7 @@
           "Mod+Q".action = actions.spawn "ghostty";
           "Mod+E".action = actions.spawn "nautilus";
           "Mod+Space".action = actions.spawn "rofi" "-show" "drun";
+          "Mod+Slash".action = actions.spawn "noctalia" "msg" "panel-toggle" "launcher";
 
           # Window management
           "Mod+C".action = actions.close-window;
