@@ -10,6 +10,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./gpu-diag.nix
     ../common/core
     ../common/optional/wireless.nix
     ../common/optional/audio.nix
