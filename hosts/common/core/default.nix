@@ -43,6 +43,12 @@
     unzip
   ];
 
+  programs.gnupg.agent = {
+    enable = true;
+    # pinentryFlavor = "curses";
+    enableSSHSupport = true;
+  };
+
   programs.dconf.enable = true;
   programs.nix-ld.enable = true;
 
