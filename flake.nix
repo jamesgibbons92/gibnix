@@ -5,6 +5,10 @@
     # nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    # Pinned to a pre-2026-09 snapshot: slack's linked gtk3/glib libs regressed
+    # after that point (GLib-GObject "instance has no handler" crash on start).
+    nixpkgs-slack-pin.url = "github:NixOS/nixpkgs/9fbb54b33e91ee4ca368e35a78e0613c720600b3";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -4,6 +4,7 @@
   lib,
   opencode,
   herdr,
+  inputs,
   ...
 }: let
   ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
@@ -42,7 +43,7 @@ in {
     ];
 
     _module.args = {
-      inherit opencode herdr;
+      inherit opencode herdr inputs;
     };
   };
 }

@@ -2,8 +2,18 @@
   pkgs,
   lib,
   config,
+  inputs,
   ...
-}: {
+}: let
+  # Slack's own version hasn't moved (still 4.51.180), but nixpkgs' gtk3/glib
+  # regressed since ~2026-09, causing a GLib-GObject "instance has no handler"
+  # crash on startup. Build slack against the last known-good nixpkgs snapshot
+  # instead, so it links a working gtk3/glib via its rpath.
+  pkgsSlackPin = import inputs.nixpkgs-slack-pin {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    config.allowUnfree = true;
+  };
+in {
   options.desktop = {
     windowManager = lib.mkOption {
       type = lib.types.enum ["hyprland" "niri"];
@@ -59,7 +69,18 @@
       spotify
       spotify-player # tui fun
       # bitwarden-desktop
-      slack
+      # Force XWayland: native Wayland Ozone triggers a zxdg_exporter_v2
+      # "invalid role" crash on niri (Electron popup surfaces exported
+      # before being assigned a role). xwayland-satellite covers this.
+      # Built against pkgsSlackPin (see top of file) to avoid a newer
+      # nixpkgs gtk3/glib regression that crashes slack on startup.
+      (pkgsSlackPin.slack.overrideAttrs (old: {
+        installPhase =
+          builtins.replaceStrings
+          ["--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations,WebRTCPipeWireCapturer --enable-wayland-ime=true"]
+          ["--ozone-platform=x11"]
+          old.installPhase;
+      }))
       vesktop
 
       # blender
