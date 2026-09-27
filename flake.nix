@@ -21,11 +21,9 @@
 
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
 
-    nixos-wsl.url = "github:nix-community/nixos-wsl/main";
-
     opencode.url = "github:anomalyco/opencode/dev";
 
-    herdr.url = "github:herdrdev/herdr/master";
+    herdr.url = "github:herdrdev/herdr/065ef9d6a531c49fb8bee7e818ef837065b21ee9";
 
     stylix = {
       url = "github:nix-community/stylix";
@@ -41,58 +39,27 @@
       url = "github:noctalia-dev/noctalia";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # omanix = {
-    #   url = "github:T00fy/omanix";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    #   inputs.home-manager.follows = "home-manager";
-    # };
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
-    nixos-wsl,
     opencode,
     herdr,
     stylix,
     niri,
-    # omanix,
     ...
   } @ inputs: let
     inherit (self) outputs;
     system = "x86_64-linux";
-    # username = "james";
     lib = nixpkgs.lib;
-    pkgs = import nixpkgs {
+    _ = import nixpkgs {
       inherit system;
       config.allowUnfree = true;
     };
   in {
     nixosConfigurations = {
-      /*
-      desktop = lib.nixosSystem {
-        inherit system;
-        modules = [
-          ./hosts/desktop/configuration.nix
-          ./common/users.nix
-          ./common/packages.nix
-        ];
-      };
-      */
-      macbook = lib.nixosSystem {
-        inherit system;
-        specialArgs = {
-          inherit inputs outputs opencode herdr;
-        };
-        modules = [
-          stylix.nixosModules.stylix
-          ./hosts/macbook/configuration.nix
-          ./hosts/common/core
-          ./hosts/common/users/james
-        ];
-      };
       bajie = lib.nixosSystem {
         inherit system;
         specialArgs = {

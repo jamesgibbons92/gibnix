@@ -1,8 +1,4 @@
-{
-  pkgs,
-  opencode,
-  ...
-}: {
+{...}: {
   imports = [
     ../core
   ];
