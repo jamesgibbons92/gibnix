@@ -47,10 +47,8 @@ jobs:
         uses: tailscale/github-action@v4
         with:
           authkey: ${{ secrets.TS_AUTHKEY }}
-          # Tailnet lock needs somewhere to persist the key authority data; the
-          # default in-memory state cannot validate the signature chain.
           statedir: ${{ runner.temp }}/tailscale
-          ping: niks3 # fail fast if the tailnet route is wrong
+          ping: niks3
 
       - uses: NixOS/nix-installer-action@main
 
@@ -61,7 +59,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: Mic92/niks3-action@v1
         with:
-          server-url: ${{ vars.NIKS3_SERVER_URL }}
+          server-url: ${{ secrets.NIKS3_SERVER_URL }}
 
       - name: Build ${{ matrix.host }}
         run: |
