@@ -51,6 +51,10 @@ jobs:
           ping: niks3
 
       - uses: NixOS/nix-installer-action@main
+        with:
+          extra-conf: |
+            extra-substituters = https://nix-cache.gibbo.tech
+            extra-trusted-public-keys = nix-cache.gibbo.tech-1:+5Vna1yXB+Hkz9dbkjjirDr4usupVeS4fW1PAQQA0OI=
 
       # Registers a post-build-hook, so intermediate derivations are cached even
       # when the build below fails or is cancelled. Reads the substituter URL and

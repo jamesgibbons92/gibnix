@@ -62,6 +62,11 @@
   nix.settings = {
     trusted-users = ["root" "james"];
     experimental-features = ["nix-command" "flakes"];
+
+    substituters = ["https://nix-cache.gibbo.tech"];
+    trusted-public-keys = [
+      "nix-cache.gibbo.tech-1:+5Vna1yXB+Hkz9dbkjjirDr4usupVeS4fW1PAQQA0OI="
+    ];
   };
 
   security.wrappers.nethogs = {

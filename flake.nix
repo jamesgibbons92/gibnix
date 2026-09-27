@@ -1,6 +1,11 @@
 {
   description = "My NixOS Configurations";
 
+  nixConfig = {
+    extra-substituters = ["https://nix-cache.gibbo.tech"];
+    extra-trusted-public-keys = ["nix-cache.gibbo.tech-1:+5Vna1yXB+Hkz9dbkjjirDr4usupVeS4fW1PAQQA0OI="];
+  };
+
   inputs = {
     # nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
