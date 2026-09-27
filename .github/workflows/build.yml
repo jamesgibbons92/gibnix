@@ -4,10 +4,15 @@
 # `repository` and `ref: refs/heads/main`, so a PR run cannot mint a write
 # token. PR runs still build, just without the cache.
 #
-# Needs repo secrets TS_OAUTH_CLIENT_ID and TS_OAUTH_SECRET from a Tailscale
-# OAuth client with Auth Keys: write, tagged tag:ci, and an ACL rule allowing
-# tag:ci -> tag:k8s:443. NIKS3_SERVER_URL is a repo variable holding
-# https://niks3.<tailnet>.ts.net — hardcode it here instead if you'd rather.
+# Needs repo secret TS_AUTHKEY and an ACL rule allowing tag:ci -> tag:k8s:443.
+# NIKS3_SERVER_URL is a repo variable holding https://niks3.<tailnet>.ts.net —
+# hardcode it here instead if you'd rather.
+#
+# TS_AUTHKEY is an auth key, not an OAuth client, because the tailnet has tailnet
+# lock enabled: an OAuth client mints an unsigned node key per job and there is
+# no unattended way to sign it. The key must be reusable, ephemeral, tagged
+# tag:ci, and pre-signed with `tailscale lock sign` from a signing node. It
+# expires (90 days max), so it needs rotating — see README.
 
 name: build
 
@@ -41,9 +46,10 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: tailscale/github-action@v4
         with:
-          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
-          tags: tag:ci
+          authkey: ${{ secrets.TS_AUTHKEY }}
+          # Tailnet lock needs somewhere to persist the key authority data; the
+          # default in-memory state cannot validate the signature chain.
+          statedir: ${{ runner.temp }}/tailscale
           ping: niks3 # fail fast if the tailnet route is wrong
 
       - uses: NixOS/nix-installer-action@main
