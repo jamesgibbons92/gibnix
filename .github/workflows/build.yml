@@ -1,0 +1,63 @@
+# Builds every host and pushes the closures to the niks3 binary cache.
+#
+# Cache pushes only happen on main: the niks3 OIDC provider binds both
+# `repository` and `ref: refs/heads/main`, so a PR run cannot mint a write
+# token. PR runs still build, just without the cache.
+#
+# Needs repo secrets TS_OAUTH_CLIENT_ID and TS_OAUTH_SECRET from a Tailscale
+# OAuth client with Auth Keys: write, tagged tag:ci, and an ACL rule allowing
+# tag:ci -> tag:k8s:443. NIKS3_SERVER_URL is a repo variable holding
+# https://niks3.<tailnet>.ts.net — hardcode it here instead if you'd rather.
+
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        host: [bajie, wukong, erlang]
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Join tailnet
+        if: github.ref == 'refs/heads/main'
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+          ping: niks3 # fail fast if the tailnet route is wrong
+
+      - uses: NixOS/nix-installer-action@main
+
+      # Registers a post-build-hook, so intermediate derivations are cached even
+      # when the build below fails or is cancelled. Reads the substituter URL and
+      # trusted public key from /api/cache-config.
+      - name: Set up niks3 cache
+        if: github.ref == 'refs/heads/main'
+        uses: Mic92/niks3-action@v1
+        with:
+          server-url: ${{ vars.NIKS3_SERVER_URL }}
+
+      - name: Build ${{ matrix.host }}
+        run: |
+          nix build --print-build-logs \
+            ".#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel"
