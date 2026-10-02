@@ -1,7 +1,9 @@
 # Nightly flake.lock update, opened as a PR for review rather than pushed to main.
 #
-# Only well-reviewed inputs are bumped here; fast-moving single-maintainer inputs
-# (opencode, herdr, noctalia, niri) are updated by hand.
+# Only well-reviewed inputs are bumped here, plus noctalia, whose home module has
+# to track home-manager internals. Read its compare link in the PR before merging.
+# Other fast-moving single-maintainer inputs (opencode, herdr, niri) are updated
+# by hand.
 #
 # Updated inputs are only ever evaluated and built in jobs with a read-only token
 # and no id-token, so a compromised input can't push to the repo or mint a niks3
@@ -40,7 +42,7 @@ jobs:
       - name: Update inputs
         id: update
         run: |
-          nix flake update nixpkgs home-manager stylix nixos-hardware 2>&1 | tee update.log
+          nix flake update nixpkgs home-manager stylix nixos-hardware noctalia 2>&1 | tee update.log
           if git diff --quiet flake.lock; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
@@ -82,7 +84,7 @@ jobs:
 
       - name: Build ${{ matrix.host }}
         run: |
-          nix build --print-build-logs \
+          nix build --print-build-logs --accept-flake-config \
             ".#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel"
 
   # Runs no Nix, only git and gh, so updated inputs never execute with this token.
@@ -106,6 +108,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          cp flake.lock "$RUNNER_TEMP/old.lock"
           cp "$RUNNER_TEMP/flake-update/flake.lock" flake.lock
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -116,6 +119,17 @@ jobs:
           body="$RUNNER_TEMP/body.md"
           {
             echo "Nightly update. All hosts built against this lock."
+            echo
+            echo "Upstream changes (read noctalia's before merging):"
+            echo
+            jq -rn --slurpfile old "$RUNNER_TEMP/old.lock" --slurpfile new flake.lock '
+              $new[0].nodes | to_entries[]
+              | .key as $k | .value.locked as $n
+              | select($n.type? == "github")
+              | ($old[0].nodes[$k].locked.rev // null) as $o
+              | select($o != null and $o != $n.rev)
+              | "- \($n.owner)/\($n.repo): https://github.com/\($n.owner)/\($n.repo)/compare/\($o)...\($n.rev)"
+            ' | sort -u
             echo
             echo '```'
             cat "$RUNNER_TEMP/flake-update/update.log"
