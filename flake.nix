@@ -21,9 +21,9 @@
 
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
 
-    opencode.url = "github:anomalyco/opencode/dev";
+    opencode.url = "github:anomalyco/opencode/v1.18.34";
 
-    herdr.url = "github:herdrdev/herdr/065ef9d6a531c49fb8bee7e818ef837065b21ee9";
+    herdr.url = "github:herdrdev/herdr/v0.9.3";
 
     stylix = {
       url = "github:nix-community/stylix";
