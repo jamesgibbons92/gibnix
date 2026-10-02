@@ -1,0 +1,130 @@
+# Nightly flake.lock update, opened as a PR for review rather than pushed to main.
+#
+# Only well-reviewed inputs are bumped here; fast-moving single-maintainer inputs
+# (opencode, herdr, noctalia, niri) are updated by hand.
+#
+# Updated inputs are only ever evaluated and built in jobs with a read-only token
+# and no id-token, so a compromised input can't push to the repo or mint a niks3
+# write token. The cache is populated by build.yml once the PR is merged.
+#
+# Needs "Allow GitHub Actions to create and approve pull requests" enabled under
+# Settings -> Actions -> General. PRs opened with GITHUB_TOKEN don't trigger
+# build.yml, which is why the hosts are built here before the PR is opened.
+
+name: update
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.update.outputs.changed }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - uses: NixOS/nix-installer-action@62c1943b776c509394b550f3f983adc14e9212d6 # v1
+
+      - name: Update inputs
+        id: update
+        run: |
+          nix flake update nixpkgs home-manager stylix nixos-hardware 2>&1 | tee update.log
+          if git diff --quiet flake.lock; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - if: steps.update.outputs.changed == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: flake-update
+          path: |
+            flake.lock
+            update.log
+
+  build:
+    needs: update
+    if: needs.update.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        host: [bajie, wukong, erlang]
+
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: flake-update
+
+      - uses: NixOS/nix-installer-action@62c1943b776c509394b550f3f983adc14e9212d6 # v1
+        with:
+          extra-conf: |
+            extra-substituters = https://nix-cache.gibbo.tech
+            extra-trusted-public-keys = nix-cache.gibbo.tech-1:+5Vna1yXB+Hkz9dbkjjirDr4usupVeS4fW1PAQQA0OI=
+
+      - name: Build ${{ matrix.host }}
+        run: |
+          nix build --print-build-logs \
+            ".#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel"
+
+  # Runs no Nix, only git and gh, so updated inputs never execute with this token.
+  pr:
+    needs: [update, build]
+    if: needs.update.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: flake-update
+          path: ${{ runner.temp }}/flake-update
+
+      - name: Open or update PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp "$RUNNER_TEMP/flake-update/flake.lock" flake.lock
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -C flake-update
+          git commit -am "flake.lock: update"
+          git push --force origin flake-update
+
+          body="$RUNNER_TEMP/body.md"
+          {
+            echo "Nightly update. All hosts built against this lock."
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/flake-update/update.log"
+            echo '```'
+          } > "$body"
+
+          if [ "$(gh pr list --head flake-update --state open --json number --jq length)" -gt 0 ]; then
+            gh pr edit flake-update --body-file "$body"
+          else
+            gh pr create --base main --head flake-update \
+              --title "flake.lock: update" --body-file "$body"
+          fi

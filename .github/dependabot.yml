@@ -1,0 +1,10 @@
+# Keeps the SHA-pinned actions in .github/workflows current. Review the upstream
+# diff before merging: a bump is a decision to trust new code with CI secrets.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
