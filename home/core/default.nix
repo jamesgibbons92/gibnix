@@ -8,6 +8,7 @@
     ./shell
     ./nvim
     ./git.nix
+    ./herdr.nix
   ];
 
   home.stateVersion = "25.05";
@@ -16,6 +17,7 @@
     pkgs.vim
     pkgs.wget
     pkgs.curl
+    pkgs.unzip
     pkgs.fastfetch
     pkgs.jq
     pkgs.dig
@@ -27,7 +29,6 @@
     pkgs.opencode
     herdr.packages.${pkgs.system}.default
 
-    pkgs.bitwarden-cli
     pkgs.nethogs
   ];
 

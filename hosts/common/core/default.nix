@@ -40,7 +40,6 @@
   environment.systemPackages = with pkgs; [
     gcc
     gnumake
-    unzip
   ];
 
   programs.gnupg.agent = {
