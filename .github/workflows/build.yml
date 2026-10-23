@@ -63,7 +63,7 @@ jobs:
       # trusted public key from /api/cache-config.
       - name: Set up niks3 cache
         if: github.ref == 'refs/heads/main'
-        uses: Mic92/niks3-action@12d3e320b2a99b7938f9634bd337cd9fec104609 # v1.1.0
+        uses: Mic92/niks3-action@6d24bc1d87acdfac8e5dc3266f7b28ae99051adf # v1.5.0
         with:
           server-url: ${{ secrets.NIKS3_SERVER_URL }}
 
