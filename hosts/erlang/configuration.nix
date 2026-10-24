@@ -31,6 +31,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Unlock the encrypted swap partition; without this swapDevices never activates.
+  boot.initrd.luks.devices."luks-b85215b8-8a7f-4ea1-8d81-2bc32a7573d5".device = "/dev/disk/by-uuid/b85215b8-8a7f-4ea1-8d81-2bc32a7573d5";
+
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
